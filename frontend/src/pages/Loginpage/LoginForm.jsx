@@ -22,7 +22,10 @@ const LoginForm = () => {
         title: '',
         message: '',
         type: 'danger',
-        onConfirm: () => { }
+        autoClose: null,
+        showConfirm: true,
+        onConfirm: () => { },
+        onClose: null
     });
 
     const handleChange = (e) => {
@@ -104,13 +107,20 @@ const LoginForm = () => {
         <div className="w-full flex flex-col gap-1">
             <Alert
                 isOpen={alertState.isOpen}
-                onClose={() => setAlertState(prev => ({ ...prev, isOpen: false }))}
+                onClose={() => {
+                    setAlertState(prev => ({ ...prev, isOpen: false }));
+                    if (alertState.onClose) {
+                        alertState.onClose();
+                    }
+                }}
                 title={alertState.title}
                 message={alertState.message}
                 type={alertState.type}
                 onConfirm={alertState.onConfirm}
-                confirmText="OK"
+                // confirmText="OK"
                 showCancel={false}
+                showConfirm={alertState.showConfirm !== false}
+                autoClose={alertState.autoClose}
             />
             <motion.div
                 initial={{ opacity: 0, y: 20 }}

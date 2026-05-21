@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 import Alert from '../../components/Alert';
 import HeroSection from './HeroSection';
 import FeaturesSection from './FeaturesSection';
@@ -18,7 +18,10 @@ const Home = () => {
         title: '',
         message: '',
         type: 'danger',
-        onConfirm: () => { }
+        autoClose: null,
+        showConfirm: true,
+        onConfirm: () => { },
+        onClose: null
     });
 
     useEffect(() => {
@@ -32,7 +35,9 @@ const Home = () => {
                     title: 'Login Successful',
                     message: 'Welcome to your dashboard',
                     type: 'success',
-                    onConfirm: () => {
+                    autoClose: 1000,
+                    showConfirm: false,
+                    onClose: () => {
                         setAlertState(prev => ({ ...prev, isOpen: false }));
                     }
                 });
@@ -45,18 +50,26 @@ const Home = () => {
         return null;
     }
 
-    const userData = JSON.parse(session);
+    // const userData = JSON.parse(session);
     return (
         <div className="min-h-screen flex flex-col font-body-md text-body-md text-on-surface bg-surface dark:bg-surface-dim">
             <Alert
                 isOpen={alertState.isOpen}
-                onClose={() => setAlertState(prev => ({ ...prev, isOpen: false }))}
+                onClose={() => {
+                    setAlertState(prev => ({ ...prev, isOpen: false }));
+                    if (alertState.onClose) {
+                        alertState.onClose();
+                    }
+                }}
                 title={alertState.title}
                 message={alertState.message}
                 type={alertState.type}
                 onConfirm={alertState.onConfirm}
-                confirmText="OK"
+                // confirmText="OK"
                 showCancel={false}
+                showConfirm={alertState.showConfirm !== false}
+                autoClose={alertState.autoClose}
+                className="top-0 left-0 right-0"
             />
             <Header />
             <main className="flex-grow">

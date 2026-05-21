@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import BorderGlow from '../../components/BorderGlow';
+import { Link } from 'react-router-dom';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -25,7 +26,7 @@ const FeaturedProductsSection = () => {
                         <p className="font-body-md text-body-md text-on-surface-variant">Top-performing assets for Q4
                             scaling.</p>
                     </div>
-                    <a className="text-secondary font-label-md text-label-md underline" href="#">View All Products</a>
+                    <Link to="/home" className="text-secondary font-label-md text-label-md underline" >View All Products</Link>
                 </div>
                 <motion.div
                     variants={containerVariants}

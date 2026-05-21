@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const Alert = ({ isOpen, onClose, title, message, onConfirm, confirmText = "Yes", cancelText = "No", showCancel = true, type = "warning" }) => {
+const Alert = ({ isOpen, onClose, title, message, onConfirm, confirmText = "Yes", cancelText = "No", showCancel = true, showConfirm = true, type = "warning", autoClose, className }) => {
+
+    useEffect(() => {
+        if (isOpen && autoClose) {
+            const timer = setTimeout(() => {
+                onClose();
+            }, autoClose);
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen, autoClose, onClose]);
+
     if (!isOpen) return null;
 
     const iconMap = {
@@ -34,7 +44,7 @@ const Alert = ({ isOpen, onClose, title, message, onConfirm, confirmText = "Yes"
 
     return (
         <AnimatePresence>
-            <div className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-center p-4">
+            <div className={`fixed ${className} z-[100] flex items-center justify-center p-4 `}>
                 {/* Backdrop Overlay */}
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -52,6 +62,14 @@ const Alert = ({ isOpen, onClose, title, message, onConfirm, confirmText = "Yes"
                     transition={{ type: 'spring', damping: 25, stiffness: 350 }}
                     className="relative bg-surface dark:bg-inverse-surface border border-outline-variant dark:border-outline rounded-full !rounded-[24px] shadow-2xl w-full max-w-[380px] p-6 z-10 overflow-hidden"
                 >
+                    {/* Close Button */}
+                    <button
+                        onClick={onClose}
+                        className="absolute top-4 right-4 text-on-surface-variant hover:text-on-surface transition-colors"
+                    >
+                        <span className="material-symbols-outlined">close</span>
+                    </button>
+
                     <div className="flex flex-col items-center text-center">
                         {/* Status Icon */}
                         <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-4 ${currentColors.iconColor}`}>
@@ -69,27 +87,31 @@ const Alert = ({ isOpen, onClose, title, message, onConfirm, confirmText = "Yes"
                         </p>
 
                         {/* Actions */}
-                        <div className="flex items-center gap-3 w-full justify-center">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    onConfirm();
-                                    onClose();
-                                }}
-                                className={`${showCancel ? 'flex-1' : 'w-full'} h-11 text-white font-label-md text-label-md rounded-full transition-all active:scale-[0.98] shadow-sm ${currentColors.buttonColor}`}
-                            >
-                                {confirmText}
-                            </button>
-                            {showCancel && (
-                                <button
-                                    type="button"
-                                    onClick={onClose}
-                                    className="flex-1 h-11 border border-outline dark:border-outline-variant hover:bg-surface-container-high rounded-full font-label-md text-label-md text-on-surface dark:text-inverse-on-surface transition-all active:scale-[0.98]"
-                                >
-                                    {cancelText}
-                                </button>
-                            )}
-                        </div>
+                        {(showConfirm || showCancel) && (
+                            <div className="flex items-center gap-3 w-full justify-center">
+                                {showConfirm && (
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            if (onConfirm) onConfirm();
+                                            onClose();
+                                        }}
+                                        className={`${showCancel ? 'flex-1' : 'w-full'} h-11 text-white font-label-md text-label-md rounded-full transition-all active:scale-[0.98] shadow-sm ${currentColors.buttonColor}`}
+                                    >
+                                        {confirmText}
+                                    </button>
+                                )}
+                                {showCancel && (
+                                    <button
+                                        type="button"
+                                        onClick={onClose}
+                                        className={`${showConfirm ? 'flex-1' : 'w-full'} h-11 border border-outline dark:border-outline-variant hover:bg-surface-container-high rounded-full font-label-md text-label-md text-on-surface dark:text-inverse-on-surface transition-all active:scale-[0.98]`}
+                                    >
+                                        {cancelText}
+                                    </button>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </motion.div>
             </div>

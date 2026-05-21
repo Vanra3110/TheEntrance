@@ -7,6 +7,7 @@ const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
+        scale: 1,
         transition: { staggerChildren: 0.15 }
     }
 };
@@ -16,15 +17,24 @@ const cardVariants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
 
+
+
 const FeaturedProductsSection = () => {
     return (
         <section className="py-24 bg-surface-container">
-            <div className="px-margin-desktop max-w-container-max mx-auto">
+            <div className="px-margin-mobile md:px-margin-desktop w-full">
                 <div className="flex justify-between items-end mb-12">
                     <div>
-                        <h2 className="font-headline-lg text-headline-lg text-primary mb-2">Featured Products</h2>
-                        <p className="font-body-md text-body-md text-on-surface-variant">Top-performing assets for Q4
-                            scaling.</p>
+                        <motion.h2
+                            className="font-headline-lg text-headline-lg text-primary mb-2 overflow-hidden whitespace-nowrap"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: "100%", transition: { duration: 1, ease: "easeInOut" } }}
+                            viewport={{ once: true, amount: 0.5 }}
+                        >Featured Products</motion.h2>
+                        <motion.p className="font-body-md text-body-md text-on-surface-variant overflow-hidden whitespace-nowrap"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: "100%", transition: { duration: 1, delay: 0.2, ease: "easeInOut" } }}
+                            viewport={{ once: true, amount: 0.5 }}>Top-performing assets for Q4 scaling.</motion.p>
                     </div>
                     <Link to="/home" className="text-secondary font-label-md text-label-md underline" >View All Products</Link>
                 </div>
@@ -63,7 +73,7 @@ const FeaturedProductsSection = () => {
                             </div>
                         </BorderGlow>
                     </motion.div>
-                    
+
                     <motion.div variants={cardVariants} className="h-full">
                         <BorderGlow
                             className="bg-white border border-outline-variant rounded-xl overflow-hidden hover:shadow-md transition-shadow h-full"

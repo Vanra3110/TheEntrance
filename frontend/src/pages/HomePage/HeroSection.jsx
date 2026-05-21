@@ -4,15 +4,61 @@ import Button from "../../components/Button";
 import TextType from '../../components/TypeText';
 import { Link } from "react-router-dom";
 import ShinyText from '../../components/ShinyText';
+import SimpleImageSlider from "react-simple-image-slider";
+import img1 from '../../Assests/1.jpg';
+import img2 from '../../Assests/2.jpg';
+// import img3 from '../../Assests/3.jpg';
+// import img4 from '../../Assests/4.jpg';
+import img5 from '../../Assests/5.jpg';
+// import img6 from '../../Assests/6.jpg';
+// import img7 from '../../Assests/7.jpg';
+import img8 from '../../Assests/8.jpg';
+// import img9 from '../../Assests/9.jpg';
+// import img10 from '../../Assests/10.jpg';
+import img11 from '../../Assests/11.jpg';
+import img12 from '../../Assests/12.jpg';
+import img13 from '../../Assests/13.jpg';
+import img14 from '../../Assests/14.jpg';
+import img15 from '../../Assests/15.jpg';
+import img16 from '../../Assests/16.jpg';
+
+const images = [
+    { url: img1 },
+    { url: img2 },
+    // { url: img3 },
+    // { url: img4 },
+    { url: img5 },
+    // { url: img6 },
+    // { url: img7 },
+    { url: img8 },
+    // { url: img9 },
+    // { url: img10 },
+    { url: img11 },
+    { url: img12 },
+    { url: img13 },
+    { url: img14 },
+    { url: img15 },
+    { url: img16 },
+];
+
 
 const HeroSection = () => {
     return (
         <>
             <section className="relative h-screen flex items-center overflow-hidden bg-primary-container">
-                <div className="absolute inset-0 opacity-40">
-                    <img className="w-full h-full object-cover"
-                        alt="A sophisticated corporate high-tech environment with glass partitions and soft atmospheric lighting. The scene features blurred motion of professional executives in a clean, modern architectural space dominated by deep navy blues and metallic greys. The lighting is precise, emphasizing a sense of high-level enterprise security and reliable data processing."
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqf1kloUczcc7p3WFM4LFAzZxZTa-n2Rk7R8bNr1T5S7hkMl__4MgpuwEF1t7XcxAS5y1-kf83SEOwghekC-oiZ7cyhLS32WduInQzbqjLtMYDukkNccDlOr7ygIeh9qEJx5qBCMxQPBoSisszZh8rHVohtGYQi1WfKNf8B9kO0LsTX83x8WjVLJ6TbBZtprtJTSuWJN1uzZ4bUM7_GkvLa_FY6ZyC87SEg6drpdNE_xjB0UfYUXvqEdifE-JOjucV5HBtMx8nsDc" />
+                <div className="absolute inset-0 opacity-50">
+                    <div className="w-full h-full object-cover">
+                        <SimpleImageSlider
+                            width="100%"
+                            height="100%"
+                            images={images}
+                            showBullets={false}
+                            showNavs={true}
+                            autoPlay={true}
+                            autoPlayDelay={2}
+                            navStyle={2}
+                        />
+                    </div>
                 </div>
                 <div className="relative w-full px-margin-desktop max-w-container-max mx-auto z-10">
                     <motion.div
@@ -26,7 +72,7 @@ const HeroSection = () => {
                                 text="Enterprise-Grade Solutions for Your Business"
                                 speed={2}
                                 delay={0}
-                                color="#b0c8eb"
+                                color="#38c8fcff"
                                 shineColor="#ffffff"
                                 spread={120}
                                 direction="left"
@@ -36,7 +82,7 @@ const HeroSection = () => {
                             />
                         </h1>
                         <TextType
-                            className="font-body-lg text-body-lg text-on-primary-container mb-10 max-w-lg text-[20px] "
+                            className="font-body-lg text-body-lg text-white mb-10 max-w-lg text-[20px] "
                             text={['Scale your infrastructure with precision-engineered hardware and software designed for the demands of modern industry leaders.']}
                             typingSpeed={30}
                             pauseDuration={15000000000}

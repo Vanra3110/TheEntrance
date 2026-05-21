@@ -6,19 +6,23 @@ const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
+        scale: 1,
         transition: { staggerChildren: 0.15 }
     }
 };
 
 const cardVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
 };
 
 const CategoriesSection = () => {
     return (
-        <section className="py-24 px-margin-desktop max-w-container-max mx-auto">
-            <h2 className="font-headline-lg text-headline-lg text-primary mb-12">Core Categories</h2>
+        <section className="py-18 px-margin-mobile md:px-margin-desktop w-full">
+            <div className="font-headline-lg text-headline-lg text-primary mb-12"><motion.h2 className="overflow-hidden whitespace-nowrap"
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%", transition: { duration: 1, ease: "easeInOut" } }}
+                viewport={{ once: true, amount: 0.5 }}>Core Categories</motion.h2></div>
             <motion.div
                 variants={containerVariants}
                 initial="hidden"

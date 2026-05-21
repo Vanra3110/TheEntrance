@@ -51,7 +51,7 @@ const Alert = ({ isOpen, onClose, title, message, onConfirm, confirmText = "Yes"
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onClick={onClose}
-                    className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+                    className={`fixed inset-0 bg-black/60 ${type === 'success' ? '' : 'backdrop-blur-sm'}`}
                 />
 
                 {/* Modal Container */}

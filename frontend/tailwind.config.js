@@ -1,0 +1,96 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+  darkMode: "class",
+  theme: {
+      extend: {
+          colors: {
+              "tertiary-fixed-dim": "#bdc7dc",
+              "secondary-fixed": "#dbe1ff",
+              "surface-tint": "#49607e",
+              "on-tertiary-container": "#818b9f",
+              "surface-container-lowest": "#ffffff",
+              "primary": "#000f22",
+              "primary-fixed": "#d2e4ff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#f3f3ff",
+              "secondary-container": "#0762ff",
+              "secondary": "#004ccc",
+              "on-surface": "#181c1e",
+              "surface-container-low": "#f1f4f7",
+              "on-secondary-fixed": "#00174b",
+              "on-primary-fixed": "#001c37",
+              "error": "#ba1a1a",
+              "surface-container-highest": "#e0e3e6",
+              "inverse-on-surface": "#eef1f4",
+              "tertiary-fixed": "#d9e3f9",
+              "secondary-fixed-dim": "#b4c5ff",
+              "on-primary": "#ffffff",
+              "surface": "#f7fafd",
+              "surface-dim": "#d7dadd",
+              "on-tertiary": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "outline-variant": "#c4c6ce",
+              "tertiary": "#050e1d",
+              "on-tertiary-fixed-variant": "#3d4759",
+              "on-tertiary-fixed": "#121c2b",
+              "surface-variant": "#e0e3e6",
+              "primary-container": "#0a2540",
+              "on-surface-variant": "#43474d",
+              "outline": "#74777e",
+              "surface-container": "#ebeef1",
+              "on-error-container": "#93000a",
+              "on-background": "#181c1e",
+              "on-secondary": "#ffffff",
+              "on-error": "#ffffff",
+              "on-primary-container": "#768dad",
+              "surface-bright": "#f7fafd",
+              "on-secondary-fixed-variant": "#003ea8",
+              "background": "#f7fafd",
+              "surface-container-high": "#e5e8eb",
+              "inverse-primary": "#b0c8eb",
+              "tertiary-container": "#1a2434",
+              "primary-fixed-dim": "#b0c8eb",
+              "on-primary-fixed-variant": "#314865"
+          },
+          borderRadius: {
+              "DEFAULT": "0.125rem",
+              "lg": "0.25rem",
+              "xl": "0.5rem",
+              "full": "0.75rem"
+          },
+          spacing: {
+              "base": "8px",
+              "container-max": "1280px",
+              "margin-desktop": "32px",
+              "gutter": "24px",
+              "margin-mobile": "16px"
+          },
+          fontFamily: {
+              "display-lg-mobile": ["Inter"],
+              "body-sm": ["Inter"],
+              "label-md": ["Inter"],
+              "body-lg": ["Inter"],
+              "headline-lg": ["Inter"],
+              "body-md": ["Inter"],
+              "headline-md": ["Inter"],
+              "label-sm": ["Inter"],
+              "display-lg": ["Inter"]
+          },
+          fontSize: {
+              "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+              "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+              "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+              "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+              "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+              "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+              "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+              "label-sm": ["12px", {"lineHeight": "14px", "fontWeight": "600"}],
+              "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+          }
+      }
+  },
+  plugins: [],
+}

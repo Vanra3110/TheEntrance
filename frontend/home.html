@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Enterprise Core Solutions | NexusTrade</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#0a2540",
+                        "tertiary": "#050e1d",
+                        "on-secondary-fixed": "#00174b",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#49607e",
+                        "surface-bright": "#f7fafd",
+                        "surface-container-low": "#f1f4f7",
+                        "surface-container-highest": "#e0e3e6",
+                        "error-container": "#ffdad6",
+                        "outline": "#74777e",
+                        "tertiary-fixed": "#d9e3f9",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#768dad",
+                        "on-surface": "#181c1e",
+                        "on-primary-fixed": "#001c37",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#f3f3ff",
+                        "on-primary-fixed-variant": "#314865",
+                        "inverse-on-surface": "#eef1f4",
+                        "surface-container": "#ebeef1",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c4c6ce",
+                        "tertiary-fixed-dim": "#bdc7dc",
+                        "secondary": "#004ccc",
+                        "primary-fixed-dim": "#b0c8eb",
+                        "inverse-primary": "#b0c8eb",
+                        "on-tertiary-container": "#818b9f",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-fixed-variant": "#3d4759",
+                        "on-background": "#181c1e",
+                        "secondary-container": "#0762ff",
+                        "surface": "#f7fafd",
+                        "on-surface-variant": "#43474d",
+                        "primary-fixed": "#d2e4ff",
+                        "surface-variant": "#e0e3e6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7fafd",
+                        "primary": "#000f22",
+                        "on-tertiary-fixed": "#121c2b",
+                        "surface-dim": "#d7dadd",
+                        "tertiary-container": "#1a2434",
+                        "surface-container-high": "#e5e8eb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            background-color: #f7fafd;
+            color: #181c1e;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+    </style>
+</head>
+
+<body class="overflow-x-hidden">
+    <header class="bg-surface-container-lowest border-b border-outline-variant fixed top-0 w-full z-50">
+        <div class="flex justify-between items-center w-full px-margin-desktop h-16 max-w-container-max mx-auto">
+            <div class="font-headline-md text-headline-md font-bold text-primary">NexusTrade</div>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a class="text-secondary font-bold border-b-2 border-secondary pb-1 font-body-md text-body-md"
+                    href="#">Products</a>
+                <a class="text-on-surface-variant hover:text-secondary transition-colors duration-200 font-body-md text-body-md"
+                    href="#">Solutions</a>
+                <a class="text-on-surface-variant hover:text-secondary transition-colors duration-200 font-body-md text-body-md"
+                    href="#">Support</a>
+                <a class="text-on-surface-variant hover:text-secondary transition-colors duration-200 font-body-md text-body-md"
+                    href="#">Enterprise</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <span
+                    class="material-symbols-outlined text-secondary cursor-pointer hover:opacity-80 transition-opacity">account_circle</span>
+                <div class="relative cursor-pointer hover:opacity-80 transition-opacity">
+                    <span class="material-symbols-outlined text-secondary">shopping_cart</span>
+                    <span
+                        class="absolute -top-2 -right-2 bg-secondary text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">2</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="pt-16">
+        <section class="relative h-[600px] flex items-center overflow-hidden bg-primary-container">
+            <div class="absolute inset-0 opacity-40">
+                <img class="w-full h-full object-cover"
+                    data-alt="A sophisticated corporate high-tech environment with glass partitions and soft atmospheric lighting. The scene features blurred motion of professional executives in a clean, modern architectural space dominated by deep navy blues and metallic greys. The lighting is precise, emphasizing a sense of high-level enterprise security and reliable data processing."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqf1kloUczcc7p3WFM4LFAzZxZTa-n2Rk7R8bNr1T5S7hkMl__4MgpuwEF1t7XcxAS5y1-kf83SEOwghekC-oiZ7cyhLS32WduInQzbqjLtMYDukkNccDlOr7ygIeh9qEJx5qBCMxQPBoSisszZh8rHVohtGYQi1WfKNf8B9kO0LsTX83x8WjVLJ6TbBZtprtJTSuWJN1uzZ4bUM7_GkvLa_FY6ZyC87SEg6drpdNE_xjB0UfYUXvqEdifE-JOjucV5HBtMx8nsDc">
+            </div>
+            <div class="relative w-full px-margin-desktop max-w-container-max mx-auto z-10">
+                <div class="max-w-2xl">
+                    <h1 class="font-display-lg text-display-lg text-on-secondary mb-6 leading-tight">Enterprise-Grade
+                        Solutions for Your Business</h1>
+                    <p class="font-body-lg text-body-lg text-on-primary-container mb-10 max-w-lg">Scale your
+                        infrastructure with precision-engineered hardware and software designed for the demands of
+                        modern industry leaders.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <button
+                            class="bg-secondary text-on-secondary px-8 py-4 font-label-md text-label-md rounded-lg shadow-lg hover:bg-secondary-container transition-all">Shop
+                            Now</button>
+                        <button
+                            class="border border-outline-variant text-on-secondary px-8 py-4 font-label-md text-label-md rounded-lg hover:bg-white/10 transition-all">View
+                            Solutions</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-16 bg-surface-container-low">
+            <div class="px-margin-desktop max-w-container-max mx-auto">
+                <div class="flex justify-around items-center flex-wrap gap-8 py-8 border-y border-outline-variant/30">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-secondary text-3xl">local_shipping</span>
+                        <div>
+                            <p class="font-label-md text-label-md text-primary">Fast Shipping</p>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant">Priority logistics for partners
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-secondary text-3xl">support_agent</span>
+                        <div>
+                            <p class="font-label-md text-label-md text-primary">24/7 Support</p>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant">Dedicated enterprise assistance
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-secondary text-3xl">verified_user</span>
+                        <div>
+                            <p class="font-label-md text-label-md text-primary">Secure Payments</p>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant">Tier-1 encrypted transactions
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-24 px-margin-desktop max-w-container-max mx-auto">
+            <h2 class="font-headline-lg text-headline-lg text-primary mb-12">Core Categories</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div
+                    class="group relative overflow-hidden bg-white border border-outline-variant rounded-xl p-8 hover:shadow-xl transition-all duration-300">
+                    <span class="material-symbols-outlined text-4xl text-secondary mb-6">terminal</span>
+                    <h3 class="font-headline-md text-headline-md text-primary mb-2">Software</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant mb-6">Cloud-native enterprise platforms
+                        and licenses.</p>
+                    <a class="inline-flex items-center text-secondary font-label-md text-label-md group-hover:gap-2 transition-all"
+                        href="#">Explore <span class="material-symbols-outlined">arrow_forward</span></a>
+                </div>
+                <div
+                    class="group relative overflow-hidden bg-white border border-outline-variant rounded-xl p-8 hover:shadow-xl transition-all duration-300">
+                    <span class="material-symbols-outlined text-4xl text-secondary mb-6">dns</span>
+                    <h3 class="font-headline-md text-headline-md text-primary mb-2">Hardware</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant mb-6">Robust server racks, networking,
+                        and workstations.</p>
+                    <a class="inline-flex items-center text-secondary font-label-md text-label-md group-hover:gap-2 transition-all"
+                        href="#">Explore <span class="material-symbols-outlined">arrow_forward</span></a>
+                </div>
+                <div
+                    class="group relative overflow-hidden bg-white border border-outline-variant rounded-xl p-8 hover:shadow-xl transition-all duration-300">
+                    <span class="material-symbols-outlined text-4xl text-secondary mb-6">admin_panel_settings</span>
+                    <h3 class="font-headline-md text-headline-md text-primary mb-2">Security</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant mb-6">End-to-end encryption and threat
+                        detection.</p>
+                    <a class="inline-flex items-center text-secondary font-label-md text-label-md group-hover:gap-2 transition-all"
+                        href="#">Explore <span class="material-symbols-outlined">arrow_forward</span></a>
+                </div>
+                <div
+                    class="group relative overflow-hidden bg-white border border-outline-variant rounded-xl p-8 hover:shadow-xl transition-all duration-300">
+                    <span class="material-symbols-outlined text-4xl text-secondary mb-6">lightbulb</span>
+                    <h3 class="font-headline-md text-headline-md text-primary mb-2">Consulting</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant mb-6">Strategic planning and digital
+                        transformation.</p>
+                    <a class="inline-flex items-center text-secondary font-label-md text-label-md group-hover:gap-2 transition-all"
+                        href="#">Explore <span class="material-symbols-outlined">arrow_forward</span></a>
+                </div>
+            </div>
+        </section>
+        <section class="py-24 bg-surface-container">
+            <div class="px-margin-desktop max-w-container-max mx-auto">
+                <div class="flex justify-between items-end mb-12">
+                    <div>
+                        <h2 class="font-headline-lg text-headline-lg text-primary mb-2">Featured Products</h2>
+                        <p class="font-body-md text-body-md text-on-surface-variant">Top-performing assets for Q4
+                            scaling.</p>
+                    </div>
+                    <a class="text-secondary font-label-md text-label-md underline" href="#">View All Products</a>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                    <div
+                        class="bg-white border border-outline-variant rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="h-56 bg-surface-container-highest overflow-hidden">
+                            <img class="w-full h-full object-cover transition-transform hover:scale-105"
+                                data-alt="Close up photography of professional rack-mounted server units in a data center. The hardware is sleek, featuring status LEDs in soft blue, brushed aluminum finishes, and precision-engineered cooling vents. The lighting is cool and clinical, reinforcing a brand aesthetic of reliability and enterprise-level power."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtfZujjCbXR1FlpM_7x3M8g0lKaOZYY5yzsGokOA6mF7-bG12N9IOqlcFx_bsXuEKIxNrsgmyIj9_JKVdA-i-ahyaino7rqAV9gZB3lHnmwAsMO6HHWNsCb3ank-T1fY5tY0FDVOUJdw6gEt8z7Kbh9tj1rq0vHzxWn76MwpP7x5Hfc4zdciERC9dYrWLQvPxWfIGOIsQVP5PH5JYyZk5iLCUWHijNzwAeFtj8g-0WeFLXxzxPrjwwxe7ujRSpdA9N-5TnqagOeHo">
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-label-md text-label-md text-primary mb-1">Nexus-Core V2 Server</h4>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant mb-4">$4,299.00</p>
+                            <button
+                                class="w-full py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-sm">add_shopping_cart</span> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white border border-outline-variant rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="h-56 bg-surface-container-highest overflow-hidden">
+                            <img class="w-full h-full object-cover transition-transform hover:scale-105"
+                                data-alt="A high-end network security appliance shown in a professional studio setting. The device is matte black with minimal branding, featuring glowing green and blue indicator lights that signify active data protection. The background is a gradient of soft grey and navy, maintaining a clean corporate aesthetic."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzN8F2-N9ZrMZOLtcNVuf-tPAiYqS37ZX6HpMCKzDR6K68LuZazr94c-4dr3gb6vZyGfH3wgc-rGoGKXgf89T1O6WhcAhL4LR5_AJnn3iC6B-PYGRN-SNj8WtSrCY_GjwgvX3cKV8rZxA2VL_1GyIGq47jqHPTisEmjA9fKQYks0iJYj8ZbwYyhghiMB0LgPoF2V2xDZzoKV80RyYJBhHNA-qCvI6Fh6GKey48c5aec9klxTE14aeMJhStSZJM1cUd4fIlRV5ieeQ">
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-label-md text-label-md text-primary mb-1">RenderPro Workstation</h4>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant mb-4">$3,850.00</p>
+                            <button
+                                class="w-full py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-sm">add_shopping_cart</span> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white border border-outline-variant rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="h-56 bg-surface-container-highest overflow-hidden">
+                            <img class="w-full h-full object-cover transition-transform hover:scale-105"
+                                data-alt="An industrial-grade network switch with multiple ethernet ports illuminated by high-speed data activity lights. The composition is angled to show the depth and complexity of the hardware, styled with a professional corporate look using shades of navy blue and metallic silver in a high-key lighting environment."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaCQY1WoIhO1O4mnrEZ4FZS_OyHcWXOB_9_EcZNLHVzeqyiU5bdleKEWPU-44Zv44lokyBVtGR1yAfoMa_H3tUQubDX_6LxV1tOC8nMUmDPpMjfExCCRqLhUTi2TeIBCQnqC_IKFYydxAReAhEhrjxgPxsrOpL56L-zK3y632rrBZQKBRIuKka5L63n-7uPaYLBnNUeUFyVZyi6sY68sk0rMJJveqFA45F-ry5Y52v9dHzxLaj0CGW8J15HkL1wqe1iuMZ2i9ScSE">
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-label-md text-label-md text-primary mb-1">Precision Book Pro</h4>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant mb-4">$2,499.00</p>
+                            <button
+                                class="w-full py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-sm">add_shopping_cart</span> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white border border-outline-variant rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="h-56 bg-surface-container-highest overflow-hidden">
+                            <img class="w-full h-full object-cover transition-transform hover:scale-105"
+                                data-alt="A premium executive workstation laptop sitting on a minimalist wooden desk. The screen displays a complex data visualization dashboard in navy and teal. The surrounding environment is a bright, airy office with floor-to-ceiling windows, reflecting a modern, high-performance professional lifestyle."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5umdlj0a3zltxPIrEbWgUFsN25Ni4sAupFtBJWGpewMi0uuVj6pdqDayBQXDvV-32U78zfNF5j5s0fta-eO8c814d4z0ul2N26mIPgMAMZuxMTMp27b4wMFlaYVwEVAOP9ft0cqr_nbHm5lAEa_VypF57axl-q64KIk5ewQsvhPuMhDy2FvIV-tqKoCOnFTpXALFPZuMRAfDJ2FlnYTF5ckf4YFt921Kkbu6-AsmSNllFc5kd4Ix28qV7Pl3ZE9WTTSrDEKohmuc">
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-label-md text-label-md text-primary mb-1">DataStack SSD Array</h4>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant mb-4">$1,200.00</p>
+                            <button
+                                class="w-full py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-sm">add_shopping_cart</span> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-tertiary">
+        <div
+            class="w-full py-12 px-margin-desktop max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-base">
+            <div class="mb-8 md:mb-0 text-center md:text-left">
+                <div class="font-headline-md text-headline-md font-bold text-on-tertiary mb-2">NexusTrade</div>
+                <p class="font-body-sm text-body-sm text-tertiary-fixed-dim max-w-xs">Empowering enterprises with
+                    architectural hardware and software solutions.</p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8 items-center">
+                <nav class="flex gap-6">
+                    <a class="text-on-tertiary-container hover:text-on-tertiary transition-colors font-body-sm text-body-sm"
+                        href="#">Privacy Policy</a>
+                    <a class="text-on-tertiary-container hover:text-on-tertiary transition-colors font-body-sm text-body-sm"
+                        href="#">Terms of Service</a>
+                    <a class="text-on-tertiary-container hover:text-on-tertiary transition-colors font-body-sm text-body-sm"
+                        href="#">Security</a>
+                    <a class="text-on-tertiary-container hover:text-on-tertiary transition-colors font-body-sm text-body-sm"
+                        href="#">Compliance</a>
+                </nav>
+            </div>
+            <div class="text-on-tertiary-container font-body-sm text-body-sm mt-8 md:mt-0">
+                © 2024 NexusTrade Enterprise Solutions. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function () {
+                const ripple = document.createElement('span');
+                ripple.classList.add('absolute', 'bg-white/20', 'rounded-full', 'animate-ping');
+                ripple.style.width = '100px';
+                ripple.style.height = '100px';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.transform = 'translate(-50%, -50%)';
+                this.classList.add('relative', 'overflow-hidden');
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

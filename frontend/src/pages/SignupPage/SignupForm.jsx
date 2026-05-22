@@ -154,6 +154,7 @@ const SignupForm = () => {
                 onConfirm={alertState.onConfirm}
                 confirmText="Continue"
                 showCancel={false}
+                className="inset-0"
             />
             <div className="mb-2">
                 <h2 className="font-headline-lg text-headline-lg text-on-surface ">Create Account</h2>

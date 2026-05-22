@@ -46,7 +46,7 @@ export default function Menu() {
     const [value, setValue] = React.useState(0);
 
     return (
-        <Box className="hidden w-full md:flex justify-center">
+        <Box className="hidden xl:flex w-full justify-center">
             <BottomNavigation
                 showLabels
                 value={value}

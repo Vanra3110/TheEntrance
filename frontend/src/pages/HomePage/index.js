@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 // import { motion } from 'framer-motion';
-import Alert from '../../components/Alert';
+// import Alert from '../../components/Alert';
 import HeroSection from './heroSection';
 import FeaturesSection from './FeaturesSection';
 import CategoriesSection from './CategoriesSection';
@@ -11,7 +11,7 @@ import FeaturedProductsSection from './FeaturedProductsSection';
 
 const Home = () => {
     const session = sessionStorage.getItem('session');
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // const [alertState, setAlertState] = useState({
     //     isOpen: false,

@@ -5,19 +5,10 @@ import TextType from '../../components/TypeText';
 import { Link } from "react-router-dom";
 import ShinyText from '../../components/ShinyText';
 import SimpleImageSlider from "react-simple-image-slider";
+import { useState, useEffect } from "react";
 import img1 from '../../Assests/1.jpg';
 import img2 from '../../Assests/2.jpg';
-// import img3 from '../../Assests/3.jpg';
-// import img4 from '../../Assests/4.jpg';
-import img5 from '../../Assests/5.jpg';
-// import img6 from '../../Assests/6.jpg';
-// import img7 from '../../Assests/7.jpg';
 import img8 from '../../Assests/8.jpg';
-// import img9 from '../../Assests/9.jpg';
-// import img10 from '../../Assests/10.jpg';
-import img11 from '../../Assests/11.jpg';
-import img12 from '../../Assests/12.jpg';
-import img13 from '../../Assests/13.jpg';
 import img14 from '../../Assests/14.jpg';
 import img15 from '../../Assests/15.jpg';
 import img16 from '../../Assests/16.jpg';
@@ -25,24 +16,32 @@ import img16 from '../../Assests/16.jpg';
 const images = [
     { url: img1 },
     { url: img2 },
-    // { url: img3 },
-    // { url: img4 },
-    { url: img5 },
-    // { url: img6 },
-    // { url: img7 },
     { url: img8 },
-    // { url: img9 },
-    // { url: img10 },
-    { url: img11 },
-    { url: img12 },
-    { url: img13 },
     { url: img14 },
     { url: img15 },
     { url: img16 },
 ];
 
 
+
+
 const HeroSection = () => {
+    const [showNavs, setShowNavs] = useState(window.innerWidth >= 1024);
+
+    useEffect(() => {
+
+        const handleResize = () => {
+            setShowNavs(window.innerWidth >= 1024);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+
+    }, []);
+
     return (
         <>
             <section className="relative h-screen flex items-center overflow-hidden bg-primary-container">
@@ -53,7 +52,7 @@ const HeroSection = () => {
                             height="100%"
                             images={images}
                             showBullets={false}
-                            showNavs={true}
+                            showNavs={showNavs}
                             autoPlay={true}
                             autoPlayDelay={2}
                             navStyle={2}

@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Alert from './Alert';
 import Button from './Button';
 import Menu from './Menu';
-
+import BurgerMenu from './BurgerMenu';
+import MobileDrawer from './Drawer';
 const Header = () => {
     const [isLoggedin, setIsLoggedin] = useState(false);
     const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -54,21 +55,21 @@ const Header = () => {
                         <span className="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed !text-[24px]">TheEntrance</span>
                     </Link>
                 </div>
-                {/* {isLoggedin && <nav className="hidden md:flex items-center space-x-8">
-                    <Link to="/products"><Button className="text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-container transition-colors hover:scale-105 duration-200 font-body-md text-body-md" text="Products" /></Link><span className='cursor-default'> | </span>
-                    <Link to="/solutions"><Button className="text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-container transition-colors hover:scale-105 duration-200 font-body-md text-body-md" text="Solutions" /></Link><span className='cursor-default'> | </span>
-                    <Link to="/support"><Button className="text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-container transition-colors hover:scale-105 duration-200 font-body-md text-body-md" text="Support" /></Link><span className='cursor-default'> | </span>
-                    <Link to="/enterprise"><Button className="text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed-container transition-colors hover:scale-105 duration-200 font-body-md text-body-md" text="Enterprise" /></Link>
-                </nav>} */}
-                {isLoggedin && <Menu />}
+                {isLoggedin && (
+                    <>
+                        <Menu />
+                    </>
+                )}
                 <div className="flex justify-center items-center gap-3">
-                    {isLoggedin && <span className='hidden overflow-hidden md:flex whitespace-nowrap text-secondary font-bold dark:text-primary-fixed-container'>Hey {userData.first_name}!</span>}
-                    <button
-                        className="px-6 py-2 bg-primary dark:bg-primary-fixed text-white font-semibold rounded-full shadow-sm hover:scale-105 hover:cursor-pointer  active:scale-95 transition-all duration-200 flex items-center justify-center"
+                    {/* {isLoggedin && <span className='hidden overflow-hidden md:flex whitespace-nowrap text-secondary font-bold dark:text-primary-fixed-container'>Hey {userData.first_name}!</span>} */}
+                    {isLoggedin && <BurgerMenu onLogoutClick={handleAuthClick} />}
+                    {isLoggedin && <MobileDrawer />}
+                    {!isLoggedin && <button
+                        className="hidden md:flex px-6 py-2 bg-primary dark:bg-primary-fixed text-white font-semibold rounded-full shadow-sm hover:scale-105 hover:cursor-pointer  active:scale-95 transition-all duration-200 flex items-center justify-center"
                         onClick={handleAuthClick}
                     >
-                        {isLoggedin ? "Logout" : "Login"}
-                    </button>
+                        Login
+                    </button>}
                 </div>
             </header>
         </>

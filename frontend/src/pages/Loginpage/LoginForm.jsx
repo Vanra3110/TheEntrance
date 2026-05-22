@@ -121,6 +121,7 @@ const LoginForm = () => {
                 showCancel={false}
                 showConfirm={alertState.showConfirm !== false}
                 autoClose={alertState.autoClose}
+                className="inset-0"
             />
             <motion.div
                 initial={{ opacity: 0, y: 20 }}

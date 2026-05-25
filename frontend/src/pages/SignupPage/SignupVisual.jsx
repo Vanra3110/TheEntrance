@@ -3,12 +3,12 @@ import React from 'react';
 
 const SignupVisual = () => {
     return (
-        <div className="relative hidden md:flex flex-col justify-end p-12 overflow-hidden bg-primary-container">
+        <div className="relative hidden md:flex flex-col justify-end p-12 overflow-hidden">
             <div className="absolute inset-0 opacity-40">
-                <img 
-                    alt="Enterprise environment" 
-                    className="w-full h-full object-cover" 
-                    data-alt="A sophisticated, high-contrast interior of a modern corporate headquarters featuring clean architectural lines and expansive glass walls. The scene is bathed in cool, professional morning light, highlighting a serene and focused atmosphere. The aesthetic aligns with a premium B2B platform using deep blues and crisp whites. In the background, professional operators collaborate in a spacious, tech-forward lounge area, embodying reliability and precision." 
+                <img
+                    alt="Enterprise environment"
+                    className="w-full h-full object-cover"
+                    data-alt="A sophisticated, high-contrast interior of a modern corporate headquarters featuring clean architectural lines and expansive glass walls. The scene is bathed in cool, professional morning light, highlighting a serene and focused atmosphere. The aesthetic aligns with a premium B2B platform using deep blues and crisp whites. In the background, professional operators collaborate in a spacious, tech-forward lounge area, embodying reliability and precision."
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRAE9EjTILC5RU9UCaghGHXgZBFWsR1bCfE9XL4un_VF6KGCeoptArTLBEe8_fTLopRRa-CRgSNUUbrxfRX2g9M11HozJX3RYH5_0gbKOskKgdipzWU7UfngnEYUthSXRpmn03YbP3eUHNsnOOzn2KMPjEDqh-pf-Dp4-f6idKUvD_gK7a52unugOJwliWGfHaVdl3ZvyUBR9sTSaEUPwA_ydoTzWYVWtW9QChP9bW6y28kSEgwJvznI-Om3IqaE0A0lRkDEQRzkM"
                 />
             </div>

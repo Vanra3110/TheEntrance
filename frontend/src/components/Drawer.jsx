@@ -48,7 +48,7 @@ export default function MobileDrawer() {
                         <ListItemButton component={Link} to={item.path}>
                             <ListItemText
                                 primary={item.label}
-                                primaryTypographyProps={{ className: 'font-body-md text-on-surface' }}
+                                primaryTypographyProps={{ className: 'font-body-md', style: { color: '#004CC4' } }}
                             />
                         </ListItemButton>
                     </ListItem>
@@ -62,7 +62,7 @@ export default function MobileDrawer() {
             <IconButton
                 onClick={toggleDrawer(true)}
                 aria-label="open drawer"
-                className="text-primary"
+                sx={{ color: '#004CC4' }}
             >
                 <MenuIcon />
             </IconButton>

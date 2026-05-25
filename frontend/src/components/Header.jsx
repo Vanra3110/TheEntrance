@@ -1,24 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Alert from './Alert';
-import Button from './Button';
+// import Button from './Button';
 import Menu from './Menu';
 import BurgerMenu from './BurgerMenu';
 import MobileDrawer from './Drawer';
+import ShoppingCart from './ShoppingCart';
+
 const Header = () => {
     const [isLoggedin, setIsLoggedin] = useState(false);
     const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [cartCount, setCartCount] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const session = sessionStorage.getItem('session');
-        if (session) {
-            setIsLoggedin(true);
-        }
-    }, []);
+        const updateSessionData = () => {
+            const session = sessionStorage.getItem('session');
+            if (session) {
+                setIsLoggedin(true);
+                const userData = JSON.parse(session);
+                setCartCount(userData?.cartCount || 0);
+            } else {
+                setIsLoggedin(false);
+                setCartCount(0);
+            }
+        };
 
-    const session = sessionStorage.getItem('session');
-    const userData = session ? JSON.parse(session) : null;
+        updateSessionData();
+
+        window.addEventListener('cartUpdated', updateSessionData);
+        window.addEventListener('storage', updateSessionData);
+
+        return () => {
+            window.removeEventListener('cartUpdated', updateSessionData);
+            window.removeEventListener('storage', updateSessionData);
+        };
+    }, []);
 
     const handleAuthClick = () => {
         if (isLoggedin) {
@@ -32,6 +49,7 @@ const Header = () => {
         sessionStorage.removeItem('session');
         sessionStorage.removeItem('loginAlertShown');
         setIsLoggedin(false);
+        setCartCount(0);
         navigate('/');
     };
 
@@ -61,7 +79,7 @@ const Header = () => {
                     </>
                 )}
                 <div className="flex justify-center items-center gap-3">
-                    {/* {isLoggedin && <span className='hidden overflow-hidden md:flex whitespace-nowrap text-secondary font-bold dark:text-primary-fixed-container'>Hey {userData.first_name}!</span>} */}
+                    {isLoggedin && <ShoppingCart badgeContent={cartCount} onClick={() => navigate('/cart')} />}
                     {isLoggedin && <BurgerMenu onLogoutClick={handleAuthClick} />}
                     {isLoggedin && <MobileDrawer />}
                     {!isLoggedin && <button

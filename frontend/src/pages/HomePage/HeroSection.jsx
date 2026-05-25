@@ -44,7 +44,7 @@ const HeroSection = () => {
 
     return (
         <>
-            <section className="relative h-screen flex items-center overflow-hidden bg-primary-container">
+            <section className="relative h-screen flex items-center overflow-hidden ">
                 <div className="absolute inset-0 opacity-50">
                     <div className="w-full h-full object-cover">
                         <SimpleImageSlider

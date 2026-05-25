@@ -165,7 +165,7 @@ const ForgetPassForm = () => {
                         <div className="relative">
                             <span className="material-symbols-outlined absolute z-10 left-3 top-1/2 -translate-y-1/2 text-outline">mail</span>
                             <Input
-                                className={`w-full h-12 pl-10 pr-4 py-3 bg-white border ${error ? 'border-error focus:border-error focus:ring-error/20' : 'border-outline-variant focus:border-secondary focus:ring-secondary/20'} rounded-lg focus:outline-none focus:ring-2 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline`}
+                                className={`w-full h-12 pl-10 pr-4 py-3 bg-surface-container border ${error ? 'border-error focus:border-error focus:ring-error/20' : 'border-outline-variant focus:border-secondary focus:ring-secondary/20'} rounded-lg focus:outline-none focus:ring-2 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline`}
                                 id="email"
                                 name="email"
                                 placeholder="name@company.com"
@@ -184,7 +184,7 @@ const ForgetPassForm = () => {
                             <div className="relative">
                                 <span className="material-symbols-outlined absolute z-10 left-3 top-1/2 -translate-y-1/2 text-outline">verified_user</span>
                                 <Input
-                                    className={`w-full h-12 pl-10 pr-4 py-3 bg-white border ${validError ? 'border-error focus:border-error focus:ring-error/20' : 'border-outline-variant focus:border-secondary focus:ring-secondary/20'} rounded-lg focus:outline-none focus:ring-2 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline`}
+                                    className={`w-full h-12 pl-10 pr-4 py-3 bg-surface-container border ${validError ? 'border-error focus:border-error focus:ring-error/20' : 'border-outline-variant focus:border-secondary focus:ring-secondary/20'} rounded-lg focus:outline-none focus:ring-2 transition-all font-body-md text-body-md text-on-surface placeholder:text-outline`}
                                     id="verification_code"
                                     name="verification_code"
                                     placeholder="Enter Verification Code"

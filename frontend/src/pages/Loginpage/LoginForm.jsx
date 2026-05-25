@@ -69,6 +69,7 @@ const LoginForm = () => {
             if (user) {
                 if (user.password === password) {
                     // Set session
+                    user.cartCount = 0;
                     sessionStorage.setItem('session', JSON.stringify(user));
 
                     setFormData({

@@ -8,7 +8,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
-import PersonAdd from '@mui/icons-material/PersonAdd';
+// import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { motion } from 'framer-motion';
@@ -47,7 +47,7 @@ export default function AccountMenu({ onLogoutClick }) {
                     >
 
                         <Avatar
-                            className="bg-primary text-white "
+                            className="bg-primary text-primary"
                             sx={{
                                 width: {
                                     xs: 28,
@@ -59,7 +59,7 @@ export default function AccountMenu({ onLogoutClick }) {
                                     sm: 32,
                                     md: 40
                                 },
-                                backgroundColor: '#312e81',
+                                backgroundColor: '#004CC4'
                             }}
                         >
                             {userData.first_name.charAt(0)}
@@ -86,6 +86,9 @@ export default function AccountMenu({ onLogoutClick }) {
                     horizontal: 'right',
                     vertical: 'bottom'
                 }}
+                PaperProps={{
+                    className: "bg-surface-container text-on-surface border border-outline-variant shadow-lg"
+                }}
             >
 
                 <MenuItem
@@ -95,7 +98,7 @@ export default function AccountMenu({ onLogoutClick }) {
                     <motion.p
                         initial={{ width: 0 }}
                         animate={{ width: "100%", transition: { duration: 1.5, ease: "easeInOut" } }}
-                        className="overflow-hidden whitespace-nowrap text-center font-bold text-[20px] decoration-secondary text-on-secondary-fixed"
+                        className="overflow-hidden whitespace-nowrap text-center font-bold text-[20px] text-primary"
                     >
                         Welcome {userData?.first_name}!
                     </motion.p>
@@ -114,15 +117,15 @@ export default function AccountMenu({ onLogoutClick }) {
                     Add another account
                 </MenuItem> */}
 
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
+                <MenuItem className="hover:bg-surface-container-high transition-colors" onClick={handleClose}>
+                    <ListItemIcon className="text-on-surface-variant">
                         <Settings fontSize="small" />
                     </ListItemIcon>
                     Settings
                 </MenuItem>
 
-                <MenuItem onClick={() => { handleClose(); onLogoutClick && onLogoutClick(); }}>
-                    <ListItemIcon>
+                <MenuItem className="hover:bg-surface-container-high transition-colors" onClick={() => { handleClose(); onLogoutClick && onLogoutClick(); }}>
+                    <ListItemIcon className="text-on-surface-variant">
                         <Logout fontSize="small" />
                     </ListItemIcon>
                     Logout

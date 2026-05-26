@@ -53,7 +53,7 @@ const FeaturedProductsSection = () => {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter"
+                    className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter"
                 >
                     {products.map((product, index) => (
                         <>

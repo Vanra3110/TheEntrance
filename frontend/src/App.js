@@ -8,6 +8,7 @@ import ContactUs from './pages/ContactUs';
 import DetailsPage from './pages/DetailsPage';
 import ScrollToTop from './components/ScrollToTop';
 import Products from './pages/ProductsPage';
+import CartPage from './pages/CartPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/details/:id" element={<DetailsPage />} />
         <Route path="/contacts" element={<ContactUs />} />
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
     </>
   );

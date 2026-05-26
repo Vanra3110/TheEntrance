@@ -64,8 +64,8 @@ function ProductsPage() {
     return (
         <>
             <Header />
-            <main className="pt-24 pb-16 px-margin-desktop max-w-container-max mx-auto min-h-[80vh]">
-                <motion.nav 
+            <main className="pt-24 pb-16 px-margin-desktop mx-auto min-h-[80vh]">
+                <motion.nav
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}

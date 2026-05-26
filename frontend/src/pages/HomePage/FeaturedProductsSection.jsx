@@ -56,21 +56,25 @@ const FeaturedProductsSection = () => {
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter"
                 >
                     {products.map((product, index) => (
-                        <motion.div key={index} variants={cardVariants} className="h-full">
-                            <Link
-                                to={`/details/${product.id}`}
-                                style={{ textDecoration: 'none' }}
-                                onClick={() => localStorage.setItem('selectedProduct', JSON.stringify(product))}
-                            >
-                                <ProductCard
-                                    id={product.id}
-                                    title={product.title}
-                                    price={product.price}
-                                    src={product.src}
-                                    alt={product.alt}
-                                />
-                            </Link>
-                        </motion.div>
+                        <>
+                            {product.id <= 4 &&
+                                <motion.div key={index} variants={cardVariants} className="h-full">
+                                    <Link
+                                        to={`/details/${product.id}`}
+                                        style={{ textDecoration: 'none' }}
+                                        onClick={() => localStorage.setItem('selectedProduct', JSON.stringify(product))}
+                                    >
+                                        <ProductCard
+                                            id={product.id}
+                                            title={product.title}
+                                            price={product.price}
+                                            src={product.src}
+                                            alt={product.alt}
+                                        />
+                                    </Link>
+                                </motion.div>
+                            }
+                        </>
                     ))}
                 </motion.div>
             </div>

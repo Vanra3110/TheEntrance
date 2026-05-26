@@ -33,27 +33,46 @@ export default function MobileDrawer() {
 
     const list = () => (
         <Box
-            sx={{ width: 250 }}
+            sx={{ width: 200 }}
             role="presentation"
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
-            className="h-full bg-surface"
+            className="h-full bg-surface-container-low relative"
         >
-            <div className="p-4 border-b border-outline-variant">
-                <span className="font-headline-md font-bold text-primary">Menu</span>
+            <div className="px-6 py-5 border-b border-outline-variant flex items-center justify-between bg-surface-container">
+                <span className="font-headline-md font-bold text-primary flex items-center gap-2">
+                    <span className="material-symbols-outlined text-primary" style={{ fontSize: '24px' }}>shield</span>
+                    TheEntrance
+                </span>
+                <button onClick={toggleDrawer(false)} className="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center p-1 rounded-full hover:bg-surface-container-high">
+                    <span className="material-symbols-outlined">close</span>
+                </button>
             </div>
-            <List>
+            <List className="px-3 pt-6 space-y-2">
                 {navItems.map((item) => (
                     <ListItem key={item.label} disablePadding>
-                        <ListItemButton component={Link} to={item.path}>
+                        <ListItemButton
+                            component={Link}
+                            to={item.path}
+                            className="rounded-lg hover:bg-surface-container-high transition-colors py-3"
+                        >
                             <ListItemText
-                                primary={item.label}
-                                primaryTypographyProps={{ className: 'font-body-md', style: { color: '#004CC4' } }}
+                                // primary={item.label}
+                                primaryTypographyProps={{ className: 'font-label-md text-on-surface px-2' }}
                             />
+                            <span className='text-on-surface px-2'>{item.label}</span>
+                            <span className="material-symbols-outlined text-on-surface-variant text-sm">chevron_right</span>
                         </ListItemButton>
                     </ListItem>
                 ))}
             </List>
+
+            <div className="absolute bottom-0 w-full p-6 border-t border-outline-variant bg-surface-container">
+                <button className="w-full py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 hover:scale-105 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+                    <span className="material-symbols-outlined text-sm">support_agent</span>
+                    Contact Sales
+                </button>
+            </div>
         </Box>
     );
 
@@ -62,7 +81,8 @@ export default function MobileDrawer() {
             <IconButton
                 onClick={toggleDrawer(true)}
                 aria-label="open drawer"
-                sx={{ color: '#004CC4' }}
+                className="text-primary hover:bg-surface-container-high transition-colors"
+                sx={{ color: '#3b82f6' }}
             >
                 <MenuIcon />
             </IconButton>
@@ -73,7 +93,8 @@ export default function MobileDrawer() {
                 onOpen={toggleDrawer(true)}
                 disableScrollLock
                 PaperProps={{
-                    className: 'bg-surface'
+                    className: 'border-l border-outline-variant',
+                    style: { backgroundColor: '#09090b', backgroundImage: 'none' }
                 }}
             >
                 {list()}

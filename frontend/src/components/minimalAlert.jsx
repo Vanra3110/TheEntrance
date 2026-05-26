@@ -5,12 +5,12 @@ import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function TransitionAlerts({ open, onClose }) {
+export default function TransitionAlerts({ open, onClose, message }) {
     return (
         <Box sx={{
             position: 'fixed',
-            bottom: 90,
-            right: '50%',
+            bottom: 50,
+            right: 200,
             zIndex: 9999,
             minWidth: 300,
             transform: 'translateX(50%)',
@@ -30,7 +30,7 @@ export default function TransitionAlerts({ open, onClose }) {
                     }
                     sx={{ mb: 2 }}
                 >
-                    Item Added to Cart Successfully!
+                    {message || "Item Added to Cart Successfully!"}
                 </Alert>
             </Collapse>
         </Box>

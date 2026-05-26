@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import SsoOptions from './SsoOptions';
+// import SsoOptions from './SsoOptions';
 import Input from '../../components/inputs';
 import { motion } from 'framer-motion';
 import Button from '../../components/Button';
@@ -189,7 +189,7 @@ const LoginForm = () => {
                             <Link to="/signup" className="text-secondary font-semibold hover:underline"> Sign Up</Link>
                         </p>
                     </div>
-                    <SsoOptions />
+                    {/* <SsoOptions /> */}
                 </form>
             </motion.div>
         </div>

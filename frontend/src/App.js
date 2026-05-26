@@ -7,6 +7,7 @@ import Home from './pages/HomePage';
 import ContactUs from './pages/ContactUs';
 import DetailsPage from './pages/DetailsPage';
 import ScrollToTop from './components/ScrollToTop';
+import Products from './pages/ProductsPage';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/forget-password" element={<ForgetPass />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/details" element={<DetailsPage />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/details/:id" element={<DetailsPage />} />
         <Route path="/contacts" element={<ContactUs />} />
       </Routes>
     </>

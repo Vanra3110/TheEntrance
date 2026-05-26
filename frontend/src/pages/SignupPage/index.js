@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+// import Footer from '../../components/Footer';
 import SignupForm from '../SignupPage/SignupForm';
 // import { Link } from 'react-router-dom';
 // import {motion} from 'framer-motion';
@@ -20,7 +20,7 @@ const Signup = () => {
                 </div>
             </main>
 
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 };

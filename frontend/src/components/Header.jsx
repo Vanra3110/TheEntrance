@@ -66,7 +66,7 @@ const Header = () => {
                 cancelText="Cancel"
                 className="inset-0"
             />
-            <header className="fixed opacity-90 top-0 min-w-[100%] z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline">
+            <header className="fixed opacity-90 top-0 min-w-[100%] z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto bg-on-primary-container dark:bg-surface-dim border-b rounded-b-xl border-outline-variant dark:border-outline">
                 <div className="flex items-center cursor-pointer active:opacity-80">
                     <Link to={isLoggedin ? "/home" : "/"} className="flex items-center gap-1 hover:no-underline">
                         <span className="material-symbols-outlined text-primary dark:text-primary-fixed" style={{ fontSize: '24px' }}>shield</span>

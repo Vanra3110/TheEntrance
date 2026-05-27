@@ -46,9 +46,7 @@ const Home = () => {
     //     }
     // }, [session, navigate]);
 
-    if (!session) {
-        return null;
-    }
+    // Removed session check to allow logged out access
 
     // const userData = JSON.parse(session);
     return (

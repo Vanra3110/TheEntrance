@@ -231,7 +231,7 @@ const ForgetPassForm = () => {
                 </form>
 
                 <div className="mt-8 text-center">
-                    <Link className="inline-flex items-center gap-1 font-label-md text-label-md text-secondary hover:underline transition-colors hover:none" to="/">
+                    <Link className="inline-flex items-center gap-1 font-label-md text-label-md text-secondary hover:underline transition-colors hover:none" to="/login">
                         <span>Back to Login</span>
                     </Link>
                 </div>

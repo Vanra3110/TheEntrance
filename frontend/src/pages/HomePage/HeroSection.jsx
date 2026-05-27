@@ -29,7 +29,7 @@ const HeroSection = () => {
     return (
         <>
             <section className="relative h-screen flex items-center overflow-hidden ">
-                <div className="absolute inset-0 opacity-50">
+                <div className="absolute inset-0 opacity-90">
                     <div className="w-full h-full object-cover">
                         <SimpleImageSlider
                             width="100%"
@@ -50,13 +50,13 @@ const HeroSection = () => {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="max-w-1xl"
                     >
-                        <h1 className="font-display-lg font-bold md:text[50px] text-[35px] font-bold md:text-[70px] text-on-secondary mb-10 leading-tight">
+                        <h1 className="font-display-lg font-bold md:text[50px] text-[35px] md:text-[70px] text-on-surface mb-10 leading-tight">
                             <ShinyText
                                 text="Enterprise-Grade Solutions for Your Business"
                                 speed={2}
                                 delay={0}
-                                color="#38c8fcff"
-                                shineColor="#ffffff"
+                                color="#3b82f6"
+                                shineColor="#c3daffff"
                                 spread={120}
                                 direction="left"
                                 yoyo={false}
@@ -76,20 +76,21 @@ const HeroSection = () => {
                                 ]}
                                 typingSpeed={50}
                                 pauseDuration={3000}
-                                showCursor
+                                showCursor={true}
                                 cursorCharacter="|"
+                                cursorColor="white"
                                 deletingSpeed={30}
                                 variableSpeedEnabled={false}
                                 variableSpeedMin={60}
                                 variableSpeedMax={120}
                                 cursorBlinkDuration={0.5}
-                                textColors={["#bfdbfe", "#bfdbfe",
-                                    "#e2e8f0", "#bfdbfe", "#e2e8f0"]}
+                                textColors={["#f8fafc", "#f1f5f9",
+                                    "#e2e8f0", "#cbd5e1", "#f8fafc"]}
                             />
                         </div>
                         <div className="flex flex-wrap gap-6">
-                            <Link to='/home'><Button className="bg-secondary text-on-secondary px-8 py-4 font-label-md text-label-md rounded-lg shadow-lg hover:bg-secondary-container transition-all" text="Shop Now" /></Link>
-                            <Link to='/home'><Button className="border border-outline-variant    text-on-secondary px-8 py-4 font-label-md text-label-md rounded-lg hover:bg-white/10 transition-all" text="View Solutions" icon="" /></Link>
+                            <Link to='/'><Button className="bg-secondary text-on-secondary px-8 py-4 font-label-md text-label-md rounded-lg shadow-lg hover:bg-secondary-container transition-all" text="Shop Now" /></Link>
+                            <Link to='/'><Button className="border border-outline-variant text-on-secondary px-8 py-4 font-label-md text-label-md rounded-lg hover:bg-black/5 transition-all" text="View Solutions" icon="" /></Link>
                         </div>
                     </motion.div>
                 </div>

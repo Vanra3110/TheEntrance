@@ -15,11 +15,11 @@ function App() {
     <>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/forget-password" element={<ForgetPass />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/details/:id" element={<DetailsPage />} />
         <Route path="/contacts" element={<ContactUs />} />

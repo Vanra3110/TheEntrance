@@ -16,6 +16,7 @@ const TextType = ({
   hideCursorWhileTyping = false,
   cursorCharacter = '|',
   cursorClassName = '',
+  cursorColor = '',
   cursorBlinkDuration = 0.5,
   textColors = [],
   variableSpeed,
@@ -164,6 +165,7 @@ const TextType = ({
       <span
         ref={cursorRef}
         className={`ml-1 inline-block opacity-100 ${shouldHideCursor ? 'hidden' : ''} ${cursorClassName}`}
+        style={cursorColor ? { color: cursorColor } : {}}
       >
         {cursorCharacter}
       </span>

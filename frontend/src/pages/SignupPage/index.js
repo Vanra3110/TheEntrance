@@ -14,7 +14,7 @@ const Signup = () => {
 
             {/* Main Content */}
             <main className="flex-grow flex items-center ml-30px mr-30px justify-center pt-20 pb-5 px-margin-mobile md:px-margin-desktop overflow-x-hidden">
-                <div className="max-w-[1100px] w-full grid grid-cols-1 md:grid-cols-2 bg-surface-container-lowest rounded-lg overflow-hidden shadow-[0px_4px_6px_rgba(0,0,0,0.05)]">
+                <div className="max-w-[1100px] w-full grid grid-cols-1 md:grid-cols-2 bg-surface-container-lowest rounded-lg overflow-hidden shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
                     <SignupVisual />
                     <SignupForm />
                 </div>

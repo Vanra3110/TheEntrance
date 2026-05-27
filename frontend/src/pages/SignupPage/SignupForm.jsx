@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 import Input from '../../components/inputs';
 import { motion } from 'framer-motion';
 import Button from '../../components/Button';
@@ -52,7 +53,7 @@ const SignupForm = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const regexExpName = /^[a-zA-Z]+$/;
@@ -100,42 +101,49 @@ const SignupForm = () => {
             return;
         }
 
-        const existingUsersStr = localStorage.getItem('users');
-        let users = [];
-        if (existingUsersStr) {
-            users = JSON.parse(existingUsersStr);
-            const userExists = users.some(u => u.email === email);
-            if (userExists) {
-                setErrors({ email: "Email is already registered" });
-                return;
-            }
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+
+            const { data } = await axios.post(
+                'http://localhost:5000/api/auth/register',
+                { first_name, last_name, email, phone, password },
+                config
+            );
+
+            const cartItems = data.cartItems || {};
+            data.cartCount = Object.values(cartItems).reduce((sum, count) => sum + count, 0);
+
+            sessionStorage.setItem('session', JSON.stringify(data));
+            sessionStorage.setItem('loginAlertShown', 'true');
+            window.dispatchEvent(new Event('cartUpdated'));
+
+            setAlertState({
+                isOpen: true,
+                title: 'Success',
+                message: 'Your registration was successful!',
+                type: 'success',
+                onConfirm: () => {
+                    // Reset form
+                    setFormData({
+                        first_name: '',
+                        last_name: '',
+                        email: '',
+                        phone: '',
+                        password: '',
+                        confirm_password: '',
+                        terms: false
+                    });
+                    setErrors({});
+                    navigate('/');
+                }
+            });
+        } catch (error) {
+            setErrors({ email: error.response && error.response.data.message ? error.response.data.message : error.message });
         }
-
-        users.push(formData);
-        localStorage.setItem('users', JSON.stringify(users));
-        sessionStorage.setItem('session', JSON.stringify(formData));
-        sessionStorage.setItem('loginAlertShown', 'true');
-
-        setAlertState({
-            isOpen: true,
-            title: 'Success',
-            message: 'Your registration was successful!',
-            type: 'success',
-            onConfirm: () => {
-                // Reset form
-                setFormData({
-                    first_name: '',
-                    last_name: '',
-                    email: '',
-                    phone: '',
-                    password: '',
-                    confirm_password: '',
-                    terms: false
-                });
-                setErrors({});
-                navigate('/home');
-            }
-        });
     };
 
     return (
@@ -156,18 +164,18 @@ const SignupForm = () => {
                 showCancel={false}
                 className="inset-0"
             />
-            <div className="mb-2">
+            <div className="mb-6">
                 <h2 className="font-headline-lg text-headline-lg text-on-surface ">Create Account</h2>
                 <p className="font-body-md text-body-md text-on-surface-variant">Complete the form below to set up your professional profile.</p>
             </div>
-            <form className="space-y-2" onSubmit={handleSubmit}>
+            <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-gutter items-start">
-                    <div className="flex flex-col min-w-0 gap-1">
+                    <div className="flex flex-col min-w-0 gap-2">
                         <label className="font-label-md text-label-md text-on-surface-variant" htmlFor="first_name">First Name</label>
                         <Input className={`min-w-0 w-full h-10 px-4 rounded border ${errors.first_name ? 'border-error focus:border-error focus:ring-error/20' : 'border-outline focus:border-secondary focus:ring-secondary/20'} focus:ring-2 bg-surface outline-none transition-all placeholder:text-on-surface-variant/50`} id="first_name" name="first_name" placeholder="John" type="text" value={formData.first_name} onChange={handleChange} />
                         {errors.first_name && <p className="text-error text-xs">{errors.first_name}</p>}
                     </div>
-                    <div className="flex flex-col min-w-0 gap-1">
+                    <div className="flex flex-col min-w-0 gap-2">
                         <label className="font-label-md text-label-md text-on-surface-variant" htmlFor="last_name">Last Name</label>
                         <Input className={`min-w-0 w-full h-10 px-4 rounded border ${errors.last_name ? 'border-error focus:border-error focus:ring-error/20' : 'border-outline focus:border-secondary focus:ring-secondary/20'} focus:ring-2 bg-surface outline-none transition-all placeholder:text-on-surface-variant/50`} id="last_name" name="last_name" placeholder="Doe" type="text" value={formData.last_name} onChange={handleChange} />
                         {errors.last_name && <p className="text-error text-xs">{errors.last_name}</p>}
@@ -175,7 +183,7 @@ const SignupForm = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-gutter items-start">
-                    <div className="flex flex-col  min-w-0 gap-1">
+                    <div className="flex flex-col  min-w-0 gap-2">
                         <label className="font-label-md text-label-md text-on-surface-variant" htmlFor="email">Email</label>
                         <div className="relative">
                             <span className="material-symbols-outlined absolute z-10 left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]" data-icon="mail">mail</span>
@@ -184,7 +192,7 @@ const SignupForm = () => {
                         {errors.email && <p className="text-error text-xs">{errors.email}</p>}
                     </div>
 
-                    <div className="flex flex-col min-w-0 gap-1">
+                    <div className="flex flex-col min-w-0 gap-2">
                         <label className="font-label-md text-label-md text-on-surface-variant" htmlFor="phone">Phone</label>
                         <div className="relative">
                             <span className="material-symbols-outlined absolute z-10 left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]" data-icon="call">call</span>
@@ -195,7 +203,7 @@ const SignupForm = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-gutter items-start">
-                    <div className="flex flex-col min-w-0 gap-1">
+                    <div className="flex flex-col min-w-0 gap-2">
                         <label className="font-label-md text-label-md text-on-surface-variant" htmlFor="password">Password</label>
                         <div className="relative">
                             <Input className={`min-w-0 w-full h-10 pl-4 pr-10 rounded border ${errors.password ? 'border-error focus:border-error focus:ring-error/20' : 'border-outline focus:border-secondary focus:ring-secondary/20'} focus:ring-2 bg-surface outline-none transition-all placeholder:text-on-surface-variant/50`} id="password" name="password" placeholder="Enter Password" type={showPassword ? "text" : "password"} value={formData.password} onChange={handleChange} onKeyDown={handleKeyDown} />
@@ -208,7 +216,7 @@ const SignupForm = () => {
                         </div>
                         {errors.password && <p className="text-error text-xs">{errors.password}</p>}
                     </div>
-                    <div className="flex flex-col min-w-0 gap-1">
+                    <div className="flex flex-col min-w-0 gap-2">
                         <label className="font-label-md text-label-md text-on-surface-variant" htmlFor="confirm_password">Confirm Password</label>
                         <div className="relative">
                             <Input className={`min-w-0 w-full h-10 pl-4 pr-10 rounded border ${errors.confirm_password ? 'border-error focus:border-error focus:ring-error/20' : 'border-outline focus:border-secondary focus:ring-secondary/20'} focus:ring-2 bg-surface outline-none transition-all placeholder:text-on-surface-variant/50`} id="confirm_password" name="confirm_password" placeholder="Confirm Password" type={showConfirmPassword ? "text" : "password"} value={formData.confirm_password} onChange={handleChange} onKeyDown={handleKeyDown} />
@@ -237,7 +245,7 @@ const SignupForm = () => {
             <div className="text-center mt-2">
                 <p className="font-body-sm text-body-sm text-on-surface-variant">
                     Already have an account?{' '}
-                    <Link to="/" className="text-secondary font-semibold hover:underline">Log In</Link>
+                    <Link to="/login" className="text-secondary font-semibold hover:underline">Log In</Link>
                 </p>
             </div>
         </motion.div>

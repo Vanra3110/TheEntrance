@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 // import SsoOptions from './SsoOptions';
 import Input from '../../components/inputs';
 import { motion } from 'framer-motion';
@@ -50,7 +51,7 @@ const LoginForm = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -61,51 +62,51 @@ const LoginForm = () => {
         setErrors(newErrors);
 
 
-        const storedUsersStr = localStorage.getItem('users');
-        if (storedUsersStr) {
-            const users = JSON.parse(storedUsersStr);
-            const user = users.find(u => u.email === email);
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
 
-            if (user) {
-                if (user.password === password) {
-                    // Set session
-                    user.cartCount = 0;
-                    sessionStorage.setItem('session', JSON.stringify(user));
+            const { data } = await axios.post(
+                'http://localhost:5000/api/auth/login',
+                { email, password },
+                config
+            );
 
+            const cartItems = data.cartItems || {};
+            data.cartCount = Object.values(cartItems).reduce((sum, count) => sum + count, 0);
+
+            sessionStorage.setItem('session', JSON.stringify(data));
+            window.dispatchEvent(new Event('cartUpdated'));
+
+            setFormData({
+                email: '',
+                password: ''
+            });
+            setErrors({});
+
+            navigate('/');
+        } catch (error) {
+            setAlertState({
+                isOpen: true,
+                title: 'Login Failed',
+                message: error.response && error.response.data.message ? error.response.data.message : 'Invalid login details. Please check your email and password.',
+                type: 'danger',
+                onConfirm: () => {
                     setFormData({
                         email: '',
                         password: ''
                     });
                     setErrors({});
-
-                    navigate('/home');
-                    return;
-                } else {
-                    setErrors({
-                        password: ' Password does not match'
-                    });
-                    return;
                 }
-            }
+            });
         }
-
-        setAlertState({
-            isOpen: true,
-            title: 'Login Failed',
-            message: 'Invalid login details. Please check your email and password.',
-            type: 'danger',
-            onConfirm: () => {
-                setFormData({
-                    email: '',
-                    password: ''
-                });
-                setErrors({});
-            }
-        });
     };
 
     return (
-        <div className="w-full flex flex-col gap-1">
+        <div className="w-full flex flex-col gap-6">
             <Alert
                 isOpen={alertState.isOpen}
                 onClose={() => {
@@ -129,13 +130,13 @@ const LoginForm = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
                 className="bg-surface-container-lowest border border-outline-variant rounded-lg p-2 md:p-6 shadow-sm">
-                <div className="text-center mb-2">
+                <div className="text-center mb-6">
                     <h1 className="font-headline-lg text-headline-lg text-primary ">Welcome Back</h1>
                     <p className="font-body-md text-body-md text-on-surface-variant">Access your secure dashboard</p>
                 </div>
-                <form className="space-y-2" onSubmit={handleSubmit}>
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     {/* Email Field */}
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-2">
                         <label className="font-label-md text-label-md text-on-surface-variant" htmlFor="email">Email</label>
                         <div className="relative">
                             <span className="material-symbols-outlined absolute z-10 left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]" data-icon="mail">mail</span>
@@ -153,7 +154,7 @@ const LoginForm = () => {
                     </div>
 
                     {/* Password Field */}
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-2">
                         <div className="flex justify-between items-center">
                             <label className="font-label-md text-label-md text-on-surface-variant" htmlFor="password">Password</label>
                             <Link className="font-label-sm text-label-sm text-secondary hover:underline transition-all" to="/forget-password">Forgot Password?</Link>

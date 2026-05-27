@@ -58,7 +58,7 @@ const ProductInfoSection = () => {
         if (!product) return;
         const session = sessionStorage.getItem('session');
         if (!session) {
-            navigate('/');
+            navigate('/login');
             return;
         }
         

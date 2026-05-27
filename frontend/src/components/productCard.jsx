@@ -2,6 +2,7 @@ import React from 'react'
 import BorderGlow from './BorderGlow'
 import { useNavigate } from 'react-router-dom';
 import TransitionAlerts from './minimalAlert';
+import axios from 'axios';
 
 function ProductCard(props) {
     const navigate = useNavigate();
@@ -39,27 +40,39 @@ function ProductCard(props) {
     const updateCart = (change) => {
         const session = sessionStorage.getItem('session');
         if (!session) {
-            navigate('/');
+            navigate('/login');
             return;
         }
-        
+
         const userData = JSON.parse(session);
         const cartItems = userData.cartItems || {};
         const currentCount = cartItems[props.id] || 0;
         const newCount = Math.max(0, currentCount + change);
-        
-        cartItems[props.id] = newCount;
-        
+
+        if (newCount === 0) {
+            delete cartItems[props.id];
+        } else {
+            cartItems[props.id] = newCount;
+        }
+
         const totalCount = Object.values(cartItems).reduce((sum, count) => sum + count, 0);
-        
+
         sessionStorage.setItem('session', JSON.stringify({
             ...userData,
             cartItems,
             cartCount: totalCount
         }));
-        
+
         setItemCount(newCount);
         window.dispatchEvent(new Event('cartUpdated'));
+
+        // Sync with backend
+        try {
+            axios.put('http://localhost:5000/api/auth/cart', {
+                email: userData.email,
+                cartItems
+            }).catch(err => console.error("Error syncing cart", err));
+        } catch (e) { }
     };
 
     const handleAddToCart = (e) => {
@@ -113,12 +126,12 @@ function ProductCard(props) {
                     <p className="font-body-sm text-body-sm text-primary mb-4">{props.price}</p>
                     <div className='flex flex-row justify-center items-center gap-4'>
                         {itemCount > 0 ? (
-                            <div className="w-full py-3 bg-surface-container border border-outline rounded-lg flex items-center justify-between px-4 transition-all">
-                                <button onClick={handleDecrement} className="text-primary hover:opacity-80 transition-opacity flex items-center justify-center">
+                            <div className="w-full py-2 bg-surface-container border border-outline-variant rounded-lg flex items-center justify-between px-2">
+                                <button onClick={handleDecrement} className="text-primary bg-surface-container-high cursor-pointer px-2 py-1 hover:opacity-80 transition-opacity flex items-center justify-center border-2 border-outline-variant rounded-lg">
                                     <span className="material-symbols-outlined text-sm">remove</span>
                                 </button>
                                 <span className="font-label-md text-label-md text-primary">{itemCount}</span>
-                                <button onClick={handleIncrement} className="text-primary hover:opacity-80 transition-opacity flex items-center justify-center">
+                                <button onClick={handleIncrement} className="text-primary bg-surface-container-high cursor-pointer px-2 py-1 hover:opacity-80 transition-opacity flex items-center justify-center border-2 border-outline-variant rounded-lg">
                                     <span className="material-symbols-outlined text-sm">add</span>
                                 </button>
                             </div>

@@ -46,7 +46,7 @@ const FeaturedProductsSection = () => {
                             whileInView={{ width: "100%", transition: { duration: 1, delay: 0.2, ease: "easeInOut" } }}
                             viewport={{ once: true, amount: 0.5 }}>Top-performing assets for Q4 scaling.</motion.p>
                     </div>
-                    <Link to="/home" className="text-secondary font-label-md text-label-md underline" >View All Products</Link>
+                    <Link to="/products" className="hidden md:block text-secondary font-label-md text-label-md underline" >View All Products</Link>
                 </div>
                 <motion.div
                     variants={containerVariants}

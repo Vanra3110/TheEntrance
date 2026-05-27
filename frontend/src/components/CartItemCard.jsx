@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import Alert from './Alert';
 
 function CartItemCard(props) {
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
     const updateCart = (change) => {
         const session = sessionStorage.getItem('session');
         if (!session) return;
@@ -25,6 +28,14 @@ function CartItemCard(props) {
         }));
 
         window.dispatchEvent(new Event('cartUpdated'));
+
+        // Sync with backend
+        try {
+            axios.put('http://localhost:5000/api/auth/cart', {
+                email: userData.email,
+                cartItems
+            }).catch(err => console.error("Error syncing cart", err));
+        } catch (e) { }
     };
 
     const handleRemove = () => {
@@ -47,10 +58,33 @@ function CartItemCard(props) {
         }));
 
         window.dispatchEvent(new Event('cartUpdated'));
+
+        // Sync with backend
+        try {
+            axios.put('http://localhost:5000/api/auth/cart', {
+                email: userData.email,
+                cartItems
+            }).catch(err => console.error("Error syncing cart", err));
+        } catch (e) { }
     };
 
     return (
-        <div className='enterprise-card bg-surface-container-high rounded-full p-6 flex flex-col md:flex-row gap-6 items-center'>
+        <>
+            <Alert
+                isOpen={isAlertOpen}
+                onClose={() => setIsAlertOpen(false)}
+                onConfirm={() => {
+                    handleRemove();
+                    setIsAlertOpen(false);
+                }}
+                title="Remove Item"
+                message="Are you sure you want to remove this item from your cart?"
+                type="danger"
+                confirmText="Remove"
+                cancelText="Cancel"
+                className="inset-0 z-50"
+            />
+            <div className='enterprise-card bg-surface-container-high rounded-full p-6 flex flex-col md:flex-row gap-6 items-center'>
             <div className="w-full md:w-48 h-36 bg-surface-container-highest rounded-lg overflow-hidden flex-shrink-0">
                 <img alt={props.alt} className="w-full h-full object-cover" src={props.scr} />
             </div>
@@ -75,13 +109,14 @@ function CartItemCard(props) {
                     <button className="flex items-center gap-1 text-error font-label-md text-label-md
                     border border-error border-outline-variant
                     p-3
-                    rounded-full bg-surface-container hover:bg-error/5 hover:scale-105 active:scale-95 transition-all" onClick={handleRemove}>
+                    rounded-full bg-surface-container hover:bg-error/5 hover:scale-105 active:scale-95 transition-all" onClick={() => setIsAlertOpen(true)}>
                         <span className="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
                         Remove
                     </button>
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

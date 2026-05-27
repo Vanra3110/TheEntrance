@@ -4,7 +4,7 @@ import React from 'react';
 const SignupVisual = () => {
     return (
         <div className="relative hidden md:flex flex-col justify-end p-12 overflow-hidden">
-            <div className="absolute inset-0 opacity-40">
+            <div className="absolute inset-0 ">
                 <img
                     alt="Enterprise environment"
                     className="w-full h-full object-cover"

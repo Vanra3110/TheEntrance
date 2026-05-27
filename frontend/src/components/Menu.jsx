@@ -27,8 +27,8 @@ export default function Menu() {
             >
                 <BottomNavigationAction
                     component={Link}
-                    to="/home"
-                    value="/home"
+                    to="/"
+                    value="/"
                     label="Home"
                     className="text-gray-400 hover:text-blue-400"
                 />

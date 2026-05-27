@@ -10,7 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 
 const navItems = [
-    { label: 'Home', path: '/home' },
+    { label: 'Home', path: '/' },
     { label: 'Solutions', path: '/solutions' },
     { label: 'Products', path: '/products' },
     { label: 'Support', path: '/support' },

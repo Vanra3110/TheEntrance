@@ -11,8 +11,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #09090b; /* match tailwind background */
-  color: #fafafa;
+  background-color: #f8fafc; /* light mode background */
+  color: #0f172a;
 }
 
 code {

@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../../components/productCard';
 import { motion, AnimatePresence } from 'framer-motion';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -17,19 +19,19 @@ const itemVariants = {
     exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } }
 };
 
-const ProductGrid = ({ products, sortOption, setSortOption }) => {
+const ProductGrid = ({ products, sortOption, setSortOption, loading }) => {
     return (
-        <motion.div 
+        <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="flex-grow"
         >
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-                <p className="font-body-md text-body-md text-on-surface-variant">Showing <span className="text-primary font-bold">{products.length}</span> high-performance units</p>
+                <p className="font-body-md text-body-md text-on-surface-variant">Showing <span className="text-primary font-bold">{loading ? "..." : products.length}</span> high-performance units</p>
                 <div className="flex items-center gap-4">
                     <span className="font-label-md text-label-md text-on-surface-variant">Sort By:</span>
-                    <select 
+                    <select
                         className="bg-surface-container-lowest border border-outline-variant font-label-md text-label-md text-primary rounded-lg px-4 py-2 focus:ring-2 focus:ring-secondary/20 outline-none"
                         value={sortOption}
                         onChange={(e) => setSortOption(e.target.value)}
@@ -42,8 +44,17 @@ const ProductGrid = ({ products, sortOption, setSortOption }) => {
                 </div>
             </div>
 
-            {products.length === 0 ? (
-                <motion.div 
+            {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={i} className="flex flex-col gap-4">
+                            <Skeleton height={250} borderRadius={8} />
+                            <Skeleton count={2} />
+                        </div>
+                    ))}
+                </div>
+            ) : products.length === 0 ? (
+                <motion.div
                     initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                     className="flex flex-col items-center justify-center py-20 text-center"
                 >
@@ -52,7 +63,7 @@ const ProductGrid = ({ products, sortOption, setSortOption }) => {
                     <p className="font-body-md text-body-md text-on-surface-variant">Try adjusting your filters to see more results.</p>
                 </motion.div>
             ) : (
-                <motion.div 
+                <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
@@ -60,7 +71,7 @@ const ProductGrid = ({ products, sortOption, setSortOption }) => {
                 >
                     <AnimatePresence mode="popLayout">
                         {products.map((product) => (
-                            <motion.div 
+                            <motion.div
                                 key={product.id}
                                 layout
                                 variants={itemVariants}
@@ -88,7 +99,7 @@ const ProductGrid = ({ products, sortOption, setSortOption }) => {
                 </motion.div>
             )}
 
-            {products.length > 0 && (
+            {products.length > 10 && (
                 <div className="mt-12 flex justify-center items-center gap-2">
                     <button className="w-10 h-10 flex items-center justify-center rounded border border-outline-variant hover:bg-surface-container-low transition-colors text-primary">
                         <span className="material-symbols-outlined">chevron_left</span>

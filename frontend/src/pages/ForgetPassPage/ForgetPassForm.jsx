@@ -226,8 +226,8 @@ const ForgetPassForm = () => {
                         </div>}
                     </div>
 
-                    <Button className={`w-full h-12 bg-secondary text-white font-label-md text-label-md rounded-lg hover:bg-primary-container transition-all active:scale-[0.98] shadow-sm flex items-center justify-center gap-2 ${success ? 'hidden' : 'block'}`} text=" Send Reset Link" icon="arrow_forward" type="submit" />
-                    <Button className={`w-full h-12 bg-secondary text-white font-label-md text-label-md rounded-lg hover:bg-primary-container transition-all active:scale-[0.98] shadow-sm flex items-center justify-center gap-2 ${success ? 'block' : 'hidden'}`} text="Verify" icon="check" type="submit" />
+                    <Button className={`w-full h-12 bg-primary text-white font-label-md text-label-md rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-all active:scale-[0.98] shadow-sm flex items-center justify-center gap-2 ${success ? 'hidden' : 'block'}`} text=" Send Reset Link" icon="arrow_forward" type="submit" />
+                    <Button className={`w-full h-12 bg-primary text-white font-label-md text-label-md rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-all active:scale-[0.98] shadow-sm flex items-center justify-center gap-2 ${success ? 'block' : 'hidden'}`} text="Verify" icon="check" type="submit" />
                 </form>
 
                 <div className="mt-8 text-center">

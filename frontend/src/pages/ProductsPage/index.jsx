@@ -5,7 +5,7 @@ import FilterSidebar from './FilterSidebar';
 import ProductGrid from './ProductGrid';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { initProducts } from '../../data/productsData';
+import axios from 'axios';
 
 function ProductsPage() {
     const [products, setProducts] = useState([]);
@@ -16,15 +16,21 @@ function ProductsPage() {
     const [priceRange, setPriceRange] = useState(1000000);
     const [inStockOnly, setInStockOnly] = useState(true);
     const [sortOption, setSortOption] = useState('Relevance');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        initProducts(true);
-        const storedProducts = localStorage.getItem("products");
-        if (storedProducts) {
-            const parsed = JSON.parse(storedProducts);
-            setProducts(parsed);
-            setFilteredProducts(parsed);
-        }
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/products');
+                setProducts(response.data);
+                setFilteredProducts(response.data);
+            } catch (error) {
+                console.error("Failed to fetch products", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
     }, []);
 
     useEffect(() => {
@@ -78,6 +84,7 @@ function ProductsPage() {
                         products={filteredProducts}
                         sortOption={sortOption}
                         setSortOption={setSortOption}
+                        loading={loading}
                     />
                 </div>
             </main>

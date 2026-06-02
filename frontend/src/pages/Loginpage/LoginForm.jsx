@@ -86,8 +86,7 @@ const LoginForm = () => {
                 password: ''
             });
             setErrors({});
-
-            navigate('/');
+            navigate('/transition', { state: { type: 'login' } });
         } catch (error) {
             setAlertState({
                 isOpen: true,
@@ -182,7 +181,7 @@ const LoginForm = () => {
 
                     {/* CTA Button */}
                     <div className="pt-2">
-                        <Button className="w-full h-12 bg-secondary text-on-secondary font-label-md text-label-md rounded-lg shadow-[0px_4px_6px_rgba(0,0,0,0.05)] hover:bg-secondary-container transition-colors active:opacity-80 flex items-center justify-center gap-2" text="Log In" icon="login" type="submit" />
+                        <Button className="w-full h-12 bg-primary text-white font-label-md text-label-md rounded-lg shadow-[0px_4px_6px_rgba(0,0,0,0.05)] hover:bg-primary-container hover:text-on-primary-container transition-colors active:opacity-80 flex items-center justify-center gap-2" text="Log In" icon="login" type="submit" />
                     </div>
                     <div className="text-center mt-2">
                         <p className="font-body-sm text-body-sm text-on-surface-variant">

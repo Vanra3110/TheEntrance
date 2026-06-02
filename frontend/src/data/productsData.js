@@ -235,11 +235,4 @@ const products = [
     }
 ];
 
-export const initProducts = (force = false) => {
-    const stored = localStorage.getItem("products");
-    if (!stored || force) {
-        localStorage.setItem("products", JSON.stringify(products));
-    }
-};
-
 export default products;

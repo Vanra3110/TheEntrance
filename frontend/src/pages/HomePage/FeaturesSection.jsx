@@ -18,7 +18,7 @@ const itemVariants = {
 
 const FeaturesSection = () => {
     return (
-        <section className="py-8 mb-20 bg-surface-container-low">
+        <section className="py-8 bg-surface-container-low">
             <div className="px-margin-mobile md:px-margin-desktop w-full">
                 <motion.div
                     variants={containerVariants}

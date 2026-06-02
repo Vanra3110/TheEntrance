@@ -16,7 +16,7 @@ export default function ShoppingCart(props) {
     return (
         <IconButton aria-label="cart"
             sx={{
-                color: "#004CC4",
+                color: "#ffffffff",
             }}
             onClick={props.onClick}>
             <StyledBadge badgeContent={props.badgeContent} color="secondary">

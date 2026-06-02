@@ -11,10 +11,13 @@ import Tooltip from '@mui/material/Tooltip';
 // import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import Dashboard from '@mui/icons-material/Dashboard';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 export default function AccountMenu({ onLogoutClick }) {
 
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const open = Boolean(anchorEl);
@@ -29,6 +32,10 @@ export default function AccountMenu({ onLogoutClick }) {
 
     const session = sessionStorage.getItem('session');
     const userData = session ? JSON.parse(session) : null;
+
+    if (!userData) {
+        return null;
+    }
 
     return (
         <>
@@ -59,11 +66,9 @@ export default function AccountMenu({ onLogoutClick }) {
                                     sm: 32,
                                     md: 40
                                 },
-                                backgroundColor: '#004CC4'
+                                objectFit: "cover"
                             }}
-                        >
-                            {userData.first_name.charAt(0)}
-                        </Avatar>
+                            src={userData.image} />
 
                     </IconButton>
 
@@ -87,7 +92,26 @@ export default function AccountMenu({ onLogoutClick }) {
                     vertical: 'bottom'
                 }}
                 PaperProps={{
-                    className: "bg-surface-container text-on-surface border border-outline-variant shadow-lg"
+                    className: "bg-surface-container text-on-surface border border-outline-variant shadow-lg",
+                    sx: {
+                        width: '220px',
+                        mt: 1.5,
+                        overflow: 'visible',
+                        '&::before': {
+                            content: '""',
+                            display: 'block',
+                            position: 'absolute',
+                            top: 0,
+                            right: 14,
+                            width: 10,
+                            height: 10,
+                            backgroundColor: 'inherit',
+                            transform: 'translateY(-50%) rotate(45deg)',
+                            zIndex: 0,
+                            borderTop: '1px solid var(--md-sys-color-outline-variant)',
+                            borderLeft: '1px solid var(--md-sys-color-outline-variant)'
+                        },
+                    }
                 }}
             >
 
@@ -104,8 +128,12 @@ export default function AccountMenu({ onLogoutClick }) {
                     </motion.p>
                 </MenuItem>
 
-                <MenuItem className='flex gap-2' onClick={handleClose}>
-                    <Avatar /> My account
+                <MenuItem className='flex gap-2' onClick={() => {
+                    handleClose();
+                    navigate(`/profile/${userData._id}`);
+                }}>
+                    <Avatar sx={{ backgroundColor: 'purple' }}> {userData.first_name.charAt(0)}</Avatar>
+                    My account
                 </MenuItem>
 
                 <Divider />
@@ -116,6 +144,15 @@ export default function AccountMenu({ onLogoutClick }) {
                     </ListItemIcon>
                     Add another account
                 </MenuItem> */}
+
+                {userData.isAdmin && (
+                    <MenuItem className="hover:bg-surface-container-high transition-colors" onClick={() => { handleClose(); navigate('/admin-dashboard'); }}>
+                        <ListItemIcon className="text-on-surface-variant">
+                            <Dashboard fontSize="small" />
+                        </ListItemIcon>
+                        Admin Dashboard
+                    </MenuItem>
+                )}
 
                 <MenuItem className="hover:bg-surface-container-high transition-colors" onClick={handleClose}>
                     <ListItemIcon className="text-on-surface-variant">

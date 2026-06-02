@@ -238,7 +238,7 @@ const SignupForm = () => {
                     </label>
                 </div>
 
-                <Button className="w-full h-12 bg-secondary text-on-secondary font-label-md text-label-md rounded-lg shadow-[0px_4px_6px_rgba(0,0,0,0.05)] hover:bg-secondary-container transition-colors active:opacity-80 flex items-center justify-center gap-2" text="Create Account" icon="arrow_forward" type="submit" />
+                <Button className="w-full h-12 bg-primary text-white font-label-md text-label-md rounded-lg shadow-[0px_4px_6px_rgba(0,0,0,0.05)] hover:bg-primary-container hover:text-on-primary-container transition-colors active:opacity-80 flex items-center justify-center gap-2" text="Create Account" icon="arrow_forward" type="submit" />
             </form>
 
             {/* Footer Link */}

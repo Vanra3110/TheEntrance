@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import ProductCard from '../../components/productCard';
 
-import { initProducts } from '../../data/productsData';
+import axios from 'axios';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -23,15 +23,19 @@ const FeaturedProductsSection = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        initProducts(); // Ensures products are initialized
-        const storedProducts = localStorage.getItem("products");
-        if (storedProducts) {
-            setProducts(JSON.parse(storedProducts));
-        }
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/products');
+                setProducts(response.data);
+            } catch (error) {
+                console.error("Failed to fetch products", error);
+            }
+        };
+        fetchProducts();
     }, []);
 
     return (
-        <section className="pt-24 pb-20 bg-surface-container">
+        <section className="mt-20 pt-12 pb-20 bg-surface-container">
             <div className="px-margin-mobile md:px-margin-desktop w-full">
                 <div className="flex justify-between items-end mb-12">
                     <div>

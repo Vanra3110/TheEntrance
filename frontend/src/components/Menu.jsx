@@ -4,8 +4,13 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { Link, useLocation } from 'react-router-dom';
 
-export default function Menu() {
+export default function Menu(props) {
     const location = useLocation();
+
+    const userData = props.userData;
+    if (!userData) {
+        return null
+    }
 
     return (
         <Box className="hidden xl:flex w-full justify-center">
@@ -57,13 +62,15 @@ export default function Menu() {
                     className="text-gray-400 hover:text-blue-400"
                 />
 
-                <BottomNavigationAction
-                    // component={Link}
-                    // to="/enterprise"
-                    value="/enterprise"
-                    label="Enterprise"
-                    className="text-gray-400 hover:text-blue-400"
-                />
+                {userData.isAdmin && (
+                    <BottomNavigationAction
+                        component={Link}
+                        to="/admin-dashboard"
+                        value="/admin-dashboard"
+                        label="Enterprise"
+                        className="text-gray-400 hover:text-blue-400"
+                    />
+                )}
             </BottomNavigation>
         </Box >
     );

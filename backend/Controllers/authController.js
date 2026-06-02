@@ -20,7 +20,8 @@ const registerUser = async (req, res) => {
             email,
             phone,
             password,
-            cartItems: {}
+            cartItems: {},
+            isAdmin: email === 'my111tab.mt@gmail.com'
         });
 
         if (user) {
@@ -30,7 +31,10 @@ const registerUser = async (req, res) => {
                 last_name: user.last_name,
                 email: user.email,
                 phone: user.phone,
+                image: user.image,
+                address: user.address,
                 cartItems: user.cartItems,
+                isAdmin: user.isAdmin,
                 token: generateToken(user._id),
             });
         } else {
@@ -58,7 +62,10 @@ const loginUser = async (req, res) => {
                 last_name: user.last_name,
                 email: user.email,
                 phone: user.phone,
+                image: user.image,
+                address: user.address,
                 cartItems: user.cartItems,
+                isAdmin: user.isAdmin,
                 token: generateToken(user._id),
             });
         } else {
@@ -94,8 +101,76 @@ const updateCart = async (req, res) => {
     }
 };
 
+// @desc    Get user profile
+// @route   GET /api/auth/profile/:id
+// @access  Public (should ideally be protected)
+const getUserProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (user) {
+            res.json({
+                _id: user._id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                email: user.email,
+                phone: user.phone,
+                image: user.image,
+                address: user.address,
+                isAdmin: user.isAdmin,
+            });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// @desc    Update user profile
+// @route   PUT /api/auth/profile/:id
+// @access  Public (should ideally be protected)
+const updateUserProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (user) {
+            user.first_name = req.body.first_name || user.first_name;
+            user.last_name = req.body.last_name || user.last_name;
+            user.email = req.body.email || user.email;
+            user.phone = req.body.phone || user.phone;
+            user.image = req.body.image || user.image;
+            user.address = req.body.address || user.address;
+            
+            if (req.body.password) {
+                user.password = req.body.password;
+            }
+
+            const updatedUser = await user.save();
+
+            res.json({
+                _id: updatedUser._id,
+                first_name: updatedUser.first_name,
+                last_name: updatedUser.last_name,
+                email: updatedUser.email,
+                phone: updatedUser.phone,
+                image: updatedUser.image,
+                address: updatedUser.address,
+                isAdmin: updatedUser.isAdmin,
+                token: generateToken(updatedUser._id),
+            });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
-    updateCart
+    updateCart,
+    getUserProfile,
+    updateUserProfile
 };

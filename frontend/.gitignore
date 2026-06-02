@@ -1,1 +1,17 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Build files
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+
+# Cache
+.cache/
+frontend/node_modules/.cache/
+
+# Logs
+*.log

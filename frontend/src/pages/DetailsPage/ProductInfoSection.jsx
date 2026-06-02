@@ -61,22 +61,22 @@ const ProductInfoSection = () => {
             navigate('/login');
             return;
         }
-        
+
         const userData = JSON.parse(session);
         const cartItems = userData.cartItems || {};
         const currentCount = cartItems[product.id] || 0;
         const newCount = Math.max(0, currentCount + change);
-        
+
         cartItems[product.id] = newCount;
-        
+
         const totalCount = Object.values(cartItems).reduce((sum, count) => sum + count, 0);
-        
+
         sessionStorage.setItem('session', JSON.stringify({
             ...userData,
             cartItems,
             cartCount: totalCount
         }));
-        
+
         setItemCount(newCount);
         window.dispatchEvent(new Event('cartUpdated'));
     };
@@ -115,34 +115,34 @@ const ProductInfoSection = () => {
     return (
         <>
             <TransitionAlerts open={showAlert} onClose={() => setShowAlert(false)} message={alertMessage} />
-            <motion.div 
+            <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate="show"
                 className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16"
             >
                 <motion.div variants={itemVariants} className="space-y-6">
-                    <motion.div 
+                    <motion.div
                         layoutId="main-image"
                         className="aspect-square rounded-lg overflow-hidden border border-outline-variant bg-white flex items-center justify-center p-8"
                     >
-                        <motion.img 
+                        <motion.img
                             key={mainImage}
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.3 }}
-                            alt={product?.alt || "Nexus-Core V2 Server"} 
-                            className="w-full h-full object-contain" 
-                            src={mainImage || "https://lh3.googleusercontent.com/aida/ADBb0uiQXvUayPTnxd06r8RsRwvl8MQkYtRC9X8-tnD2kM9zf12M8wZTg3-5KHOLmODb49ouArWulgrlj1lMiy0XlsaxtCI72j-QjZOINGA4sb3lYSdcdOaguAhoh5pJqd_o6bkkoMRrH481MZq83xbhGDiMgSYWLbhDT3V0s1XpccvUu-tyXPd5gm4dwblU_yx78WoFt39VMBCUNZXuvK37V4WbdNAvH1qzKzOdnEDyG8-V7f8yvS-SrpZtng"} 
+                            alt={product?.alt || "Nexus-Core V2 Server"}
+                            className="w-full h-full object-contain"
+                            src={mainImage || "https://lh3.googleusercontent.com/aida/ADBb0uiQXvUayPTnxd06r8RsRwvl8MQkYtRC9X8-tnD2kM9zf12M8wZTg3-5KHOLmODb49ouArWulgrlj1lMiy0XlsaxtCI72j-QjZOINGA4sb3lYSdcdOaguAhoh5pJqd_o6bkkoMRrH481MZq83xbhGDiMgSYWLbhDT3V0s1XpccvUu-tyXPd5gm4dwblU_yx78WoFt39VMBCUNZXuvK37V4WbdNAvH1qzKzOdnEDyG8-V7f8yvS-SrpZtng"}
                         />
                     </motion.div>
                     <div className="grid grid-cols-4 gap-4">
                         {[product?.src, product?.src, product?.src].map((src, idx) => (
-                            <motion.div 
+                            <motion.div
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => setMainImage(src)}
-                                key={idx} 
+                                key={idx}
                                 className={`aspect-square border rounded bg-white p-2 cursor-pointer transition-colors ${mainImage === src && idx === 0 ? 'border-secondary ring-2 ring-secondary/20' : 'border-outline-variant'}`}
                             >
                                 <img alt={`View ${idx + 1}`} className={`w-full h-full object-contain transition-opacity ${mainImage === src && idx === 0 ? 'opacity-100' : 'opacity-60 hover:opacity-100'}`} src={src || "https://lh3.googleusercontent.com/aida/ADBb0uiQXvUayPTnxd06r8RsRwvl8MQkYtRC9X8-tnD2kM9zf12M8wZTg3-5KHOLmODb49ouArWulgrlj1lMiy0XlsaxtCI72j-QjZOINGA4sb3lYSdcdOaguAhoh5pJqd_o6bkkoMRrH481MZq83xbhGDiMgSYWLbhDT3V0s1XpccvUu-tyXPd5gm4dwblU_yx78WoFt39VMBCUNZXuvK37V4WbdNAvH1qzKzOdnEDyG8-V7f8yvS-SrpZtng"} />
@@ -184,11 +184,11 @@ const ProductInfoSection = () => {
                                     { name: "Dual Intel Xeon Silver", price: "Included", selected: true },
                                     { name: "Dual Intel Xeon Gold", price: "+$1,450.00", selected: false }
                                 ]).map((proc, idx) => (
-                                    <motion.button 
+                                    <motion.button
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => setSelectedProcessor(idx)}
-                                        key={idx} 
+                                        key={idx}
                                         className={`p-3 rounded-lg text-left transition-all ${selectedProcessor === idx ? 'border-2 border-secondary bg-surface-container-low shadow-sm' : 'border border-outline-variant hover:border-secondary'}`}
                                     >
                                         <p className="font-label-sm text-label-sm text-primary">{proc.name}</p>
@@ -205,11 +205,11 @@ const ProductInfoSection = () => {
                                     { size: "128GB", selected: true },
                                     { size: "256GB", selected: false }
                                 ]).map((mem, idx) => (
-                                    <motion.button 
+                                    <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                         onClick={() => setSelectedMemory(idx)}
-                                        key={idx} 
+                                        key={idx}
                                         className={`p-3 rounded-lg text-center transition-all ${selectedMemory === idx ? 'border-2 border-secondary bg-surface-container-low shadow-sm' : 'border border-outline-variant hover:border-secondary'}`}
                                     >
                                         <p className="font-label-sm text-label-sm text-primary">{mem.size}</p>
@@ -229,11 +229,11 @@ const ProductInfoSection = () => {
                                     </button>
                                 </div>
                             ) : (
-                                <motion.button 
-                                    whileHover={{ scale: 1.02, backgroundColor: "var(--secondary-dark)" }}
+                                <motion.button
+                                    whileHover={{ scale: 1.02, opacity: 0.8 }}
                                     whileTap={{ scale: 0.98 }}
-                                    onClick={handleAddToCart} 
-                                    className="flex-1 bg-secondary text-white py-4 px-8 rounded-lg font-label-md text-label-md hover:bg-opacity-90 transition-all flex items-center justify-center gap-2"
+                                    onClick={handleAddToCart}
+                                    className="flex-1 bg-secondary text-white py-4 px-8 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2"
                                 >
                                     <span className="material-symbols-outlined">shopping_cart</span>
                                     Add to Cart

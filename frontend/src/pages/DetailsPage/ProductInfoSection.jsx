@@ -239,8 +239,8 @@ const ProductInfoSection = () => {
                                     Add to Cart
                                 </motion.button>
                             )}
-                            <button className="flex-1 border-2 border-outline text-primary py-4 px-8 rounded-lg font-label-md text-label-md hover:bg-surface-container-high transition-all">
-                                Request a Quote
+                            <button onClick={() => navigate('/checkout', { state: { checkoutItems: [{ ...product, quantity: 1 }] } })} className="flex-1 border-2 border-outline text-primary py-4 px-8 rounded-lg font-label-md text-label-md hover:bg-surface-container-high transition-all">
+                                Buy Now
                             </button>
                         </div>
                     </div>

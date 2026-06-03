@@ -4,6 +4,7 @@ import Footer from '../../components/Footer';
 import ProductInfoSection from './ProductInfoSection';
 import FeaturesSection from './FeaturesSection';
 import TechnicalSpecsSection from './TechnicalSpecsSection';
+import ProductReviewSection from './ProductReviewSection';
 
 function DetailsPage() {
     return (
@@ -14,7 +15,9 @@ function DetailsPage() {
                 <FeaturesSection />
                 <TechnicalSpecsSection />
                 {/* <PromoSection /> */}
+                <ProductReviewSection />
             </main>
+
             <Footer />
         </>
     )

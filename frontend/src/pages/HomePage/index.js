@@ -58,8 +58,8 @@ const Home = () => {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1 }}
-                    className="h-[500px] mb-12 mx-margin-desktop md:mx-margin-mobile bg-primary-container relative rounded-full overflow-hidden shadow-2xl">
-                    <div className="absolute mx-10 inset-0 flex items-center justify-center opacity-50 text-6xl font-bold"><i>Hover Here To Have a Glimpse! Of Our Gallery</i></div>
+                    className="h-[500px] mb-12 mx-margin-desktop md:mx-margin-mobile bg-primary relative rounded-full overflow-hidden shadow-2xl">
+                    <div className="absolute mx-10 inset-0 flex items-center justify-center opacity-50 text-6xl font-bold text-surface"><i>Hover Here To Have a Glimpse! Of Our Gallery</i></div>
                     <ImageTrail
                         items={[
                             img1,

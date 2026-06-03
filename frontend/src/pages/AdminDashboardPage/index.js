@@ -5,6 +5,8 @@ import Header from '../../components/Header';
 // import Footer from '../../components/Footer';
 import AdminProducts from './AdminProducts';
 import AdminUsers from './AdminUsers';
+import AdminOrders from './AdminOrders';
+import AdminAnalytics from './AdminAnalytics';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -68,10 +70,20 @@ const AdminDashboard = () => {
                                     <span className="material-symbols-outlined">group</span>
                                     <span className="font-label-md text-label-md">Users</span>
                                 </a>
-                                <div className="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:bg-surface-container-low transition-all cursor-pointer">
+                                <a
+                                    className={`flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'orders' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
+                                    onClick={() => setActiveTab('orders')}
+                                >
+                                    <span className="material-symbols-outlined">shopping_cart</span>
+                                    <span className="font-label-md text-label-md">Orders</span>
+                                </a>
+                                <a
+                                    className={`flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'analytics' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
+                                    onClick={() => setActiveTab('analytics')}
+                                >
                                     <span className="material-symbols-outlined">analytics</span>
                                     <span className="font-label-md text-label-md">Analytics</span>
-                                </div>
+                                </a>
                                 <div className="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:bg-surface-container-low transition-all cursor-pointer">
                                     <span className="material-symbols-outlined">settings</span>
                                     <span className="font-label-md text-label-md">Settings</span>
@@ -130,12 +142,15 @@ const AdminDashboard = () => {
                                             className="p-6 bg-surface-container rounded-2xl border border-outline-variant shadow-sm flex flex-col gap-4 md:col-span-2"
                                         >
                                             <div className="flex items-center gap-3">
-                                                <span className="material-symbols-outlined text-primary text-3xl">analytics</span>
-                                                <h2 className="text-xl font-semibold">Analytics & Sales</h2>
+                                                <span className="material-symbols-outlined text-primary text-3xl">shopping_cart</span>
+                                                <h2 className="text-xl font-semibold">Sales & Orders</h2>
                                             </div>
-                                            <p className="text-on-surface-variant">Track performance, monitor revenue, and analyze hardware trends.</p>
-                                            <button className="mt-auto self-start px-4 py-2 bg-primary text-white rounded-full font-medium hover:bg-primary/90 transition-colors">
-                                                View Analytics
+                                            <p className="text-on-surface-variant">Track new sales, update order fulfillment status, and monitor revenue.</p>
+                                            <button 
+                                                onClick={() => setActiveTab('orders')}
+                                                className="mt-auto self-start px-4 py-2 bg-primary text-white rounded-full font-medium hover:bg-primary/90 transition-colors"
+                                            >
+                                                Manage Orders
                                             </button>
                                         </motion.div>
                                     </div>
@@ -145,6 +160,12 @@ const AdminDashboard = () => {
                                 )}
                                 {activeTab === 'users' && (
                                     <AdminUsers />
+                                )}
+                                {activeTab === 'orders' && (
+                                    <AdminOrders />
+                                )}
+                                {activeTab === 'analytics' && (
+                                    <AdminAnalytics />
                                 )}
                             </motion.div>
                         </section>

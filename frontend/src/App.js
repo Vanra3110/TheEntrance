@@ -13,6 +13,7 @@ import ClickSpark from './components/ClickSpark';
 import ProfilePage from './pages/ProfilePage';
 import TransitionPage from './pages/TransitionPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
+import CheckoutPage from './pages/CheckoutPage';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path='/profile/:id' element={<ProfilePage />} />
           <Route path='/transition' element={<TransitionPage />} />
           <Route path='/admin-dashboard' element={<AdminDashboardPage />} />
+          <Route path='/checkout' element={<CheckoutPage />} />
         </Routes>
       </ClickSpark>
     </>

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CartItemCard from '../../components/CartItemCard';
 import productsData from '../../data/productsData';
 import { motion, AnimatePresence } from 'framer-motion';
 
 function CartPage() {
     const [cartItems, setCartItems] = useState({});
+    const navigate = useNavigate();
 
     const loadCart = () => {
         const session = sessionStorage.getItem('session');
@@ -128,7 +129,9 @@ function CartPage() {
                                 <span className="font-headline-md text-headline-md text-primary font-bold">Total</span>
                                 <span className="font-headline-lg text-headline-lg text-primary font-bold tracking-tight">₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                             </div>
-                            <button className="w-full bg-secondary text-on-secondary font-label-md text-label-md py-4 rounded-lg font-bold shadow-md hover:brightness-110 active:opacity-90 transition-all flex justify-center items-center gap-2 mb-4">
+                            <button
+                                onClick={() => navigate('/checkout', { state: { checkoutItems: cartProducts, fromCart: true } })}
+                                className="w-full bg-secondary text-on-secondary font-label-md text-label-md py-4 rounded-lg font-bold shadow-md hover:brightness-110 active:opacity-90 transition-all flex justify-center items-center gap-2 mb-4">
                                 Proceed to Checkout
                                 <span className="material-symbols-outlined" data-icon="lock" style={{ "font-variation-settings": "'FILL' 1" }}>lock</span>
                             </button>

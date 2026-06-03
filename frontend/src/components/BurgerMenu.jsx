@@ -132,7 +132,8 @@ export default function AccountMenu({ onLogoutClick }) {
                     handleClose();
                     navigate(`/profile/${userData._id}`);
                 }}>
-                    <Avatar sx={{ backgroundColor: 'purple' }}> {userData.first_name.charAt(0)}</Avatar>
+                    {/* <Avatar sx={{ backgroundColor: 'purple' }}> {userData.first_name.charAt(0)}</Avatar> */}
+                    <Avatar sx={{ backgroundColor: 'purple' }} src={userData.image} />
                     My account
                 </MenuItem>
 

@@ -11,7 +11,7 @@ import img8 from '../../Assests/8.jpg';
 import img14 from '../../Assests/14.jpg';
 import img15 from '../../Assests/15.jpg';
 import img16 from '../../Assests/16.jpg';
-import chatGptBg from '../../Assests/ChatGPT Image May 28, 2026, 03_41_03 PM.png';
+import chatGptBg from '../../Assests/purpleChatGptImage.png';
 import ShapeBlur from '../../components/ShapeBlur';
 
 
@@ -98,7 +98,7 @@ const HeroSection = () => {
                             transition={{ duration: 0.8, ease: "easeInOut", delay: 0.5 }}
                             className="flex flex-wrap gap-6">
                             <Link to='/products'><Button className="bg-primary text-white px-8 py-4 font-label-md text-label-md rounded-lg shadow-lg hover:bg-primary-container hover:text-on-primary-container transition-all" text="Shop Now" /></Link>
-                            <Link to='/products'><Button className="border border-outline-variant text-primary px-8 py-4 font-label-md text-label-md rounded-lg hover:bg-transparent hover:text-primary-container transition-all" text="View Solutions" icon="" /></Link>
+                            <Link to='/products'><Button className="border border-outline-variant text-surface px-8 py-4 font-label-md text-label-md rounded-lg hover:bg-transparent hover:text-primary-container transition-all" text="View Solutions" icon="" /></Link>
                         </motion.div>
                     </div>
                     {/* <div style={{ position: 'relative', height: '500px', overflow: 'hidden' }}> */}
@@ -139,7 +139,7 @@ const HeroSection = () => {
                     whileInView={{ opacity: 0.6, y: 0 }}
                     viewport={{ once: false, amount: 0.7 }}
                     transition={{ duration: 0.8, ease: "easeInOut", delay: 0.2 }}
-                    className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0" />
+                    className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0 [mask-image:linear-gradient(to_bottom,transparent_0%,black_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_100%)]" />
             </section>
         </>
     )

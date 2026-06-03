@@ -99,8 +99,21 @@ function ProductCard(props) {
     const handleBuyNow = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log('Buy now');
-        navigate('/checkout');
+        
+        const singleProduct = {
+            _id: props.id,
+            name: props.title,
+            price: props.price,
+            image: props.src,
+            quantity: 1
+        };
+
+        navigate('/checkout', { 
+            state: { 
+                checkoutItems: [singleProduct], 
+                fromCart: false 
+            } 
+        });
     };
 
     return (

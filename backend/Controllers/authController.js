@@ -33,6 +33,10 @@ const registerUser = async (req, res) => {
                 phone: user.phone,
                 image: user.image,
                 address: user.address,
+                city: user.city,
+                state: user.state,
+                postalCode: user.postalCode,
+                country: user.country,
                 cartItems: user.cartItems,
                 isAdmin: user.isAdmin,
                 token: generateToken(user._id),
@@ -64,6 +68,10 @@ const loginUser = async (req, res) => {
                 phone: user.phone,
                 image: user.image,
                 address: user.address,
+                city: user.city,
+                state: user.state,
+                postalCode: user.postalCode,
+                country: user.country,
                 cartItems: user.cartItems,
                 isAdmin: user.isAdmin,
                 token: generateToken(user._id),
@@ -116,6 +124,10 @@ const getUserProfile = async (req, res) => {
                 phone: user.phone,
                 image: user.image,
                 address: user.address,
+                city: user.city,
+                state: user.state,
+                postalCode: user.postalCode,
+                country: user.country,
                 isAdmin: user.isAdmin,
             });
         } else {
@@ -140,6 +152,10 @@ const updateUserProfile = async (req, res) => {
             user.phone = req.body.phone || user.phone;
             user.image = req.body.image || user.image;
             user.address = req.body.address || user.address;
+            user.city = req.body.city || user.city;
+            user.state = req.body.state || user.state;
+            user.postalCode = req.body.postalCode || user.postalCode;
+            user.country = req.body.country || user.country;
             
             if (req.body.password) {
                 user.password = req.body.password;
@@ -155,6 +171,10 @@ const updateUserProfile = async (req, res) => {
                 phone: updatedUser.phone,
                 image: updatedUser.image,
                 address: updatedUser.address,
+                city: updatedUser.city,
+                state: updatedUser.state,
+                postalCode: updatedUser.postalCode,
+                country: updatedUser.country,
                 isAdmin: updatedUser.isAdmin,
                 token: generateToken(updatedUser._id),
             });

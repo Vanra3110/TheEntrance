@@ -15,7 +15,7 @@ const AdminUsers = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/users');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/users`);
             setUsers(response.data);
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -32,7 +32,7 @@ const AdminUsers = () => {
 
         if (window.confirm(`Are you sure you want to remove the user ${email}?`)) {
             try {
-                await axios.delete(`http://localhost:5000/api/users/${id}`);
+                await axios.delete(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/users/${id}`);
                 setUsers(users.filter(u => u._id !== id));
             } catch (error) {
                 console.error("Error deleting user:", error);
@@ -49,7 +49,7 @@ const AdminUsers = () => {
         setSelectedUser(user);
         setLoadingOrders(true);
         try {
-            const res = await axios.get(`http://localhost:5000/api/orders/user/${user._id}`);
+            const res = await axios.get(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/orders/user/${user._id}`);
             setUserOrders(res.data);
         } catch (error) {
             console.error("Error fetching user orders:", error);

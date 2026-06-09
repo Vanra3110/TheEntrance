@@ -3,7 +3,12 @@ const Product = require('../Models/Product');
 // Get all products
 exports.getProducts = async (req, res) => {
     try {
-        const products = await Product.find({});
+        const { search } = req.query;
+        let query = {};
+        if (search) {
+            query.title = { $regex: search, $options: 'i' };
+        }
+        const products = await Product.find(query);
         res.json(products);
     } catch (error) {
         console.error("Error fetching products:", error);
@@ -114,6 +119,28 @@ exports.createProduct = async (req, res) => {
         res.status(201).json(savedProduct);
     } catch (error) {
         console.error("Error creating product:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+// Get related products
+exports.getRelatedProducts = async (req, res) => {
+    try {
+        const productId = Number(req.params.id);
+        const product = await Product.findOne({ id: productId });
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        // Fetch 4 random products from the same category, excluding the current product
+        const relatedProducts = await Product.aggregate([
+            { $match: { category: product.category, id: { $ne: productId } } },
+            { $sample: { size: 4 } }
+        ]);
+
+        res.json(relatedProducts);
+    } catch (error) {
+        console.error("Error fetching related products:", error);
         res.status(500).json({ message: "Server error" });
     }
 };

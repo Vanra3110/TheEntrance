@@ -1,5 +1,6 @@
 const User = require('../Models/User');
 const generateToken = require('../utils/generateToken');
+const sendEmail = require('../utils/sendEmail');
 
 // @desc    Register a new user
 // @route   POST /api/auth/register
@@ -25,6 +26,17 @@ const registerUser = async (req, res) => {
         });
 
         if (user) {
+            // Send Welcome Email
+            try {
+                await sendEmail({
+                    email: user.email,
+                    subject: 'Welcome to The Entrance!',
+                    message: `Hi ${user.first_name},\n\nWelcome to The Entrance! We're excited to have you on board.`,
+                });
+            } catch (err) {
+                console.error("Welcome email failed", err);
+            }
+
             res.status(201).json({
                 _id: user._id,
                 first_name: user.first_name,
@@ -78,30 +90,6 @@ const loginUser = async (req, res) => {
             });
         } else {
             res.status(401).json({ message: 'Invalid email or password' });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
-    }
-};
-
-// @desc    Update user cart
-// @route   PUT /api/auth/cart
-// @access  Public (should ideally be protected, but keeping it simple for now based on user flow)
-const updateCart = async (req, res) => {
-    try {
-        const { email, cartItems } = req.body;
-        
-        // Find user by email (in a fully secure app, we'd use req.user._id from a auth middleware)
-        const user = await User.findOne({ email });
-        
-        if (user) {
-            user.cartItems = cartItems;
-            user.markModified('cartItems');
-            await user.save();
-            res.json(user.cartItems);
-        } else {
-            res.status(404).json({ message: 'User not found' });
         }
     } catch (error) {
         console.error(error);
@@ -187,10 +175,78 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
+// @desc    Forgot Password
+// @route   POST /api/auth/forgot-password
+// @access  Public
+const forgotPassword = async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'There is no user with that email' });
+        }
+
+        // Generate OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        
+        user.resetPasswordOTP = otp;
+        user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+        await user.save({ validateBeforeSave: false });
+
+        try {
+            await sendEmail({
+                email: user.email,
+                subject: 'Password Reset OTP',
+                message: `Your password reset OTP is: ${otp}\n\nIt is valid for 10 minutes.`,
+            });
+            res.status(200).json({ message: 'Email sent' });
+        } catch (error) {
+            user.resetPasswordOTP = undefined;
+            user.resetPasswordExpire = undefined;
+            await user.save({ validateBeforeSave: false });
+            return res.status(500).json({ message: 'Email could not be sent' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// @desc    Reset Password
+// @route   POST /api/auth/reset-password
+// @access  Public
+const resetPassword = async (req, res) => {
+    try {
+        const { email, otp, password } = req.body;
+
+        const user = await User.findOne({
+            email,
+            resetPasswordOTP: otp,
+            resetPasswordExpire: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid or expired OTP' });
+        }
+
+        // Set new password
+        user.password = password;
+        user.resetPasswordOTP = undefined;
+        user.resetPasswordExpire = undefined;
+        await user.save();
+
+        res.status(200).json({ message: 'Password reset successful' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
-    updateCart,
     getUserProfile,
-    updateUserProfile
+    updateUserProfile,
+    forgotPassword,
+    resetPassword
 };

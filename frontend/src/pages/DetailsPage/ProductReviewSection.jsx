@@ -31,7 +31,7 @@ const ProductReviewSection = () => {
 
     const fetchReviews = async (productId) => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/reviews/product/${productId}`);
+            const res = await axios.get(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/reviews/product/${productId}`);
             setReviews(res.data.reviews);
             setStats(res.data.stats);
         } catch (error) {
@@ -73,7 +73,7 @@ const ProductReviewSection = () => {
 
         setSubmitting(true);
         try {
-            await axios.post('http://localhost:5000/api/reviews', {
+            await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/reviews`, {
                 product_id: product.id.toString(),
                 user_id: user._id,
                 ...formData
@@ -105,7 +105,7 @@ const ProductReviewSection = () => {
         }
 
         try {
-            await axios.put(`http://localhost:5000/api/reviews/${reviewId}/vote`, { action });
+            await axios.put(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/reviews/${reviewId}/vote`, { action });
 
             // Optimistic update
             setReviews(reviews.map(review => {

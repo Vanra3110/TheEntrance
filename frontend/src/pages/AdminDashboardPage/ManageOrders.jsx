@@ -3,14 +3,18 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import TransitionAlerts from '../../components/minimalAlert';
 
-const AdminOrders = () => {
+const ManageOrders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [alert, setAlert] = useState({ open: false, message: '' });
+    const [processingId, setProcessingId] = useState(null);
 
     const fetchOrders = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/orders');
+            const adminId = JSON.parse(sessionStorage.getItem('session'))?._id;
+            const res = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/orders`, {
+                headers: { 'x-admin-id': adminId }
+            });
             setOrders(res.data);
         } catch (error) {
             console.error("Error fetching orders:", error);
@@ -25,13 +29,19 @@ const AdminOrders = () => {
     }, []);
 
     const updateStatus = async (orderId, newStatus) => {
+        setProcessingId(orderId);
         try {
-            await axios.put(`http://localhost:5000/api/orders/${orderId}/status`, { status: newStatus });
+            const adminId = JSON.parse(sessionStorage.getItem('session'))?._id;
+            await axios.put(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/orders/${orderId}/status`, { status: newStatus }, {
+                headers: { 'x-admin-id': adminId }
+            });
             setAlert({ open: true, message: 'Order status updated successfully' });
-            fetchOrders(); // refresh
+            await fetchOrders(); // refresh
         } catch (error) {
             console.error("Error updating status:", error);
             setAlert({ open: true, message: 'Failed to update order status' });
+        } finally {
+            setProcessingId(null);
         }
     };
 
@@ -63,7 +73,7 @@ const AdminOrders = () => {
                     </thead>
                     <tbody>
                         {orders.map((order) => (
-                            <motion.tr 
+                            <motion.tr
                                 key={order._id}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
@@ -92,22 +102,30 @@ const AdminOrders = () => {
                                     {new Date(order.createdAt).toLocaleDateString()}
                                 </td>
                                 <td className="py-4 px-4">
-                                    <select 
-                                        className={`px-3 py-1 rounded-full text-sm font-medium border border-outline-variant outline-none cursor-pointer
+                                    <select
+                                        disabled={processingId === order._id}
+                                        className={`px-3 py-1 rounded-full text-sm font-medium border border-outline-variant outline-none 
+                                            ${processingId === order._id ? 'opacity-50 cursor-not-allowed bg-surface-container' : 'cursor-pointer'}
                                             ${order.status === 'Pending' ? 'bg-error-container text-on-error-container' : ''}
                                             ${order.status === 'Processing' ? 'bg-secondary-container text-on-secondary-container' : ''}
                                             ${order.status === 'Shipped' ? 'bg-tertiary-container text-on-tertiary-container' : ''}
                                             ${order.status === 'Delivered' ? 'bg-primary-container text-on-primary-container' : ''}
                                             ${order.status === 'Cancelled' ? 'bg-surface-container-highest text-on-surface' : ''}
                                         `}
-                                        value={order.status}
+                                        value={processingId === order._id ? 'updating' : order.status}
                                         onChange={(e) => updateStatus(order._id, e.target.value)}
                                     >
-                                        <option value="Pending">Pending</option>
-                                        <option value="Processing">Processing</option>
-                                        <option value="Shipped">Shipped</option>
-                                        <option value="Delivered">Delivered</option>
-                                        <option value="Cancelled">Cancelled</option>
+                                        {processingId === order._id ? (
+                                            <option value="updating">Updating...</option>
+                                        ) : (
+                                            <>
+                                                <option value="Pending">Pending</option>
+                                                <option value="Processing">Processing</option>
+                                                <option value="Shipped">Shipped</option>
+                                                <option value="Delivered">Delivered</option>
+                                                <option value="Cancelled">Cancelled</option>
+                                            </>
+                                        )}
                                     </select>
                                 </td>
                             </motion.tr>
@@ -126,4 +144,4 @@ const AdminOrders = () => {
     );
 };
 
-export default AdminOrders;
+export default ManageOrders;

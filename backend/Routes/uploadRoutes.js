@@ -48,7 +48,7 @@ router.post('/', upload.single('image'), (req, res) => {
     if (req.file) {
         res.status(200).json({
             message: 'Image uploaded successfully',
-            imageUrl: `http://localhost:5000/uploads/${req.file.filename}`
+            imageUrl: `/uploads/${req.file.filename}`
         });
     } else {
         res.status(400).json({ message: 'No file uploaded or invalid file type' });

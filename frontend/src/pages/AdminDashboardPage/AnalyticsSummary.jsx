@@ -12,7 +12,7 @@ import {
   Legend
 } from 'recharts';
 
-const AdminAnalytics = () => {
+const AnalyticsSummary = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -20,7 +20,10 @@ const AdminAnalytics = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/orders');
+                const adminId = JSON.parse(sessionStorage.getItem('session'))?._id;
+                const res = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/orders`, {
+                    headers: { 'x-admin-id': adminId }
+                });
                 setOrders(res.data);
             } catch (err) {
                 console.error("Error fetching orders for analytics", err);
@@ -223,4 +226,4 @@ const AdminAnalytics = () => {
     );
 };
 
-export default AdminAnalytics;
+export default AnalyticsSummary;

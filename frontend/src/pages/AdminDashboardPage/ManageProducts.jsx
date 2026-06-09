@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const AdminProducts = () => {
+const ManageProducts = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchInput, setSearchInput] = useState('');
     const [editingProduct, setEditingProduct] = useState(null);
     const [uploadingImage, setUploadingImage] = useState(false);
     const [editForm, setEditForm] = useState({
@@ -23,9 +24,13 @@ const AdminProducts = () => {
         fetchProducts();
     }, []);
 
-    const fetchProducts = async () => {
+    const fetchProducts = async (query = '') => {
         try {
-            const response = await axios.get('http://localhost:5000/api/products');
+            setLoading(true);
+            const url = query 
+                ? `${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/products?search=${encodeURIComponent(query)}`
+                : `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/products`;
+            const response = await axios.get(url);
             setProducts(response.data);
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -34,10 +39,18 @@ const AdminProducts = () => {
         }
     };
 
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        fetchProducts(searchInput.trim());
+    };
+
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this product?")) {
             try {
-                await axios.delete(`http://localhost:5000/api/products/${id}`);
+                const adminId = JSON.parse(sessionStorage.getItem('session'))?._id;
+                await axios.delete(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/products/${id}`, {
+                    headers: { 'x-admin-id': adminId }
+                });
                 setProducts(products.filter(p => p.id !== id));
             } catch (error) {
                 console.error("Error deleting product:", error);
@@ -79,11 +92,14 @@ const AdminProducts = () => {
     const handleEditSave = async (e) => {
         e.preventDefault();
         try {
+            const adminId = JSON.parse(sessionStorage.getItem('session'))?._id;
+            const headers = { 'x-admin-id': adminId };
+
             if (editingProduct === 'new') {
-                const response = await axios.post(`http://localhost:5000/api/products`, editForm);
+                const response = await axios.post(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/products`, editForm, { headers });
                 setProducts([...products, response.data]);
             } else {
-                const response = await axios.put(`http://localhost:5000/api/products/${editingProduct}`, editForm);
+                const response = await axios.put(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/products/${editingProduct}`, editForm, { headers });
                 setProducts(products.map(p => p.id === editingProduct ? { ...p, ...response.data } : p));
             }
             setEditingProduct(null);
@@ -102,10 +118,10 @@ const AdminProducts = () => {
         setUploadingImage(true);
 
         try {
-            const res = await axios.post('http://localhost:5000/api/upload', formData, {
+            const res = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/upload`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            const imageUrl = `http://localhost:5000${res.data.imageUrl}`;
+            const imageUrl = `${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}${res.data.imageUrl}`;
             setEditForm({ ...editForm, src: imageUrl });
         } catch (err) {
             console.error("Error uploading image:", err);
@@ -137,8 +153,23 @@ const AdminProducts = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
                 <h2 className="text-2xl font-bold font-headline text-primary">Manage Products</h2>
+                
+                <form onSubmit={handleSearchSubmit} className="flex flex-1 max-w-md items-center bg-surface border border-outline-variant rounded-full px-4 py-2 transition-all focus-within:ring-2 focus-within:ring-primary focus-within:border-primary shadow-sm mx-auto md:mx-4">
+                    <span className="material-symbols-outlined text-on-surface-variant mr-3 text-[20px]">search</span>
+                    <input 
+                        type="text" 
+                        placeholder="Search products by name..." 
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        className="bg-transparent border-none outline-none text-sm text-on-surface w-full font-body-sm"
+                    />
+                    {searchInput && (
+                        <button type="button" onClick={() => { setSearchInput(''); fetchProducts(''); }} className="material-symbols-outlined text-on-surface-variant hover:text-error ml-2 rounded-full transition-colors text-[20px]">close</button>
+                    )}
+                </form>
+
                 <button
                     onClick={handleAddClick}
                     className="px-4 py-2 bg-primary text-white rounded-full font-medium hover:bg-primary/90 transition-colors flex items-center gap-2"
@@ -453,4 +484,4 @@ const AdminProducts = () => {
     );
 };
 
-export default AdminProducts;
+export default ManageProducts;

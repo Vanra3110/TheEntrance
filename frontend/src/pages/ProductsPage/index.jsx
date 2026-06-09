@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 // import { motion } from 'framer-motion';
 // import { Link } from 'react-router-dom';
 import FilterSidebar from './FilterSidebar';
@@ -18,10 +19,30 @@ function ProductsPage() {
     const [sortOption, setSortOption] = useState('Relevance');
     const [loading, setLoading] = useState(true);
 
+    const location = useLocation();
+    const navigate = useNavigate();
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get('search') || '';
+
+    const [searchInput, setSearchInput] = useState(searchQuery);
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        if (searchInput.trim()) {
+            navigate(`/products?search=${encodeURIComponent(searchInput.trim())}`);
+        } else {
+            navigate(`/products`);
+        }
+    };
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/products');
+                setLoading(true);
+                const url = searchQuery
+                    ? `${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/products?search=${encodeURIComponent(searchQuery)}`
+                    : `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/products`;
+                const response = await axios.get(url);
                 setProducts(response.data);
                 setFilteredProducts(response.data);
             } catch (error) {
@@ -31,7 +52,7 @@ function ProductsPage() {
             }
         };
         fetchProducts();
-    }, []);
+    }, [searchQuery]);
 
     useEffect(() => {
         let result = [...products];
@@ -70,7 +91,23 @@ function ProductsPage() {
     return (
         <>
             <Header />
-            <main className="pt-24 pb-16 px-margin-desktop mx-auto min-h-[80vh]">
+            <main className="pt-24 pb-16 px-margin-desktop mx-auto min-h-[80vh] max-w-container-max">
+                <div className="mb-10 max-w-2xl mx-auto w-full">
+                    <form onSubmit={handleSearchSubmit} className="flex items-center bg-surface border border-outline-variant rounded-full px-4 py-3 transition-all focus-within:ring-2 focus-within:ring-primary focus-within:border-primary shadow-sm">
+                        <span className="material-symbols-outlined text-on-surface-variant mr-3">search</span>
+                        <input
+                            type="text"
+                            placeholder="Search by product name..."
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            className="bg-transparent border-none outline-none text-base text-on-surface w-full font-body-md"
+                        />
+                        {searchInput && (
+                            <button type="button" onClick={() => { setSearchInput(''); navigate('/products'); }} className="material-symbols-outlined text-on-surface-variant hover:text-error ml-2 rounded-full p-1 transition-colors">close</button>
+                        )}
+                    </form>
+                </div>
+
                 <div className="flex flex-col lg:flex-row gap-gutter">
                     <FilterSidebar
                         selectedCategories={selectedCategories}

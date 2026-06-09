@@ -4,6 +4,7 @@ import Input from '../../components/inputs';
 import Button from '../../components/Button';
 import { motion } from 'framer-motion';
 import Alert from '../../components/Alert';
+import axios from 'axios';
 
 const ForgetPassForm = () => {
     const [email, setEmail] = useState('');
@@ -28,17 +29,6 @@ const ForgetPassForm = () => {
     });
 
     const navigate = useNavigate();
-    const usersStr = localStorage.getItem('users');
-    const users = usersStr ? JSON.parse(usersStr) : [];
-    const user = users.find(user => user.email === email);
-
-    function generateOTP() {
-        // Generates a random 6-digit number
-        return Math.floor(100000 + Math.random() * 900000).toString();
-    }
-
-    // console.log(generateOTP()); // Example: "482931"
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -57,40 +47,37 @@ const ForgetPassForm = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!success) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            if (!emailRegex.test(email) || !user) {
-                setError('Please enter a valid registered email address');
+            if (!emailRegex.test(email)) {
+                setError('Please enter a valid email address');
                 setSuccess('');
                 return;
             }
 
-            setError('');
-            const code = generateOTP();
-            setGeneratedCode(code);
-            setAlertState({
-                isOpen: true,
-                title: 'Verification Code',
-                message: `Your verification code is: ${code}`,
-                type: 'info',
-                onConfirm: () => {
-                    setAlertState(prev => ({ ...prev, isOpen: false }));
-                }
-            });
-            // Mock successful email sent
-            setSuccess('Reset link sent! Please check your email.');
+            try {
+                await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/forgot-password`, { email });
+                setError('');
+                setAlertState({
+                    isOpen: true,
+                    title: 'Verification Code Sent',
+                    message: `An OTP has been sent to your email. Please check your inbox.`,
+                    type: 'info',
+                    onConfirm: () => {
+                        setAlertState(prev => ({ ...prev, isOpen: false }));
+                    }
+                });
+                setSuccess('Reset link sent! Please check your email.');
+            } catch (err) {
+                setError(err.response?.data?.message || 'Could not send OTP');
+            }
         } else {
             if (verificationCode.length === 0) {
                 setValidError('Please enter the verification code');
-                return;
-            }
-
-            if (verificationCode !== generatedCode) {
-                setValidError('Please enter the correct verification code.');
                 return;
             }
 
@@ -114,23 +101,26 @@ const ForgetPassForm = () => {
                 return;
             }
 
-            // Update user password
-            const userIndex = users.findIndex(u => u.email === email);
-            if (userIndex !== -1) {
-                users[userIndex].password = formData.password;
-                localStorage.setItem('users', JSON.stringify(users));
-            }
+            try {
+                await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/reset-password`, {
+                    email,
+                    otp: verificationCode,
+                    password: formData.password
+                });
 
-            setAlertState({
-                isOpen: true,
-                title: 'Success',
-                message: 'Password successfully reset!',
-                type: 'success',
-                onConfirm: () => {
-                    setAlertState(prev => ({ ...prev, isOpen: false }));
-                    navigate('/');
-                }
-            });
+                setAlertState({
+                    isOpen: true,
+                    title: 'Success',
+                    message: 'Password successfully reset!',
+                    type: 'success',
+                    onConfirm: () => {
+                        setAlertState(prev => ({ ...prev, isOpen: false }));
+                        navigate('/login');
+                    }
+                });
+            } catch (err) {
+                setValidError(err.response?.data?.message || 'Invalid or expired OTP');
+            }
         }
     };
 

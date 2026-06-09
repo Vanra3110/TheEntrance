@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import TransitionAlerts from '../../components/minimalAlert';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 const ProductInfoSection = () => {
     const navigate = useNavigate();
@@ -13,6 +14,7 @@ const ProductInfoSection = () => {
     const [mainImage, setMainImage] = React.useState(null);
     const [selectedProcessor, setSelectedProcessor] = React.useState(0);
     const [selectedMemory, setSelectedMemory] = React.useState(0);
+    const [isWishlisted, setIsWishlisted] = React.useState(false);
 
     React.useEffect(() => {
         let currentProductId = null;
@@ -37,12 +39,22 @@ const ProductInfoSection = () => {
                 } else {
                     setItemCount(0);
                 }
+
+                if (userData.wishlist && userData.wishlist.includes(currentProductId)) {
+                    setIsWishlisted(true);
+                } else {
+                    setIsWishlisted(false);
+                }
             }
         };
 
         updateFromSession();
         window.addEventListener('cartUpdated', updateFromSession);
-        return () => window.removeEventListener('cartUpdated', updateFromSession);
+        window.addEventListener('wishlistUpdated', updateFromSession);
+        return () => {
+            window.removeEventListener('cartUpdated', updateFromSession);
+            window.removeEventListener('wishlistUpdated', updateFromSession);
+        };
     }, []);
 
     const triggerAlert = (msg) => {
@@ -79,6 +91,14 @@ const ProductInfoSection = () => {
 
         setItemCount(newCount);
         window.dispatchEvent(new Event('cartUpdated'));
+
+        // Sync with backend
+        try {
+            axios.put(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/cart`, {
+                email: userData.email,
+                cartItems
+            }).catch(err => console.error("Error syncing cart", err));
+        } catch (e) { }
     };
 
     const handleAddToCart = (e) => {
@@ -97,6 +117,42 @@ const ProductInfoSection = () => {
         e.preventDefault();
         updateCart(-1);
         triggerAlert("Item removed successfully");
+    };
+
+    const handleToggleWishlist = async (e) => {
+        e.preventDefault();
+        
+        if (!product) return;
+        const session = sessionStorage.getItem('session');
+        if (!session) {
+            navigate('/login');
+            return;
+        }
+
+        const userData = JSON.parse(session);
+        
+        const newWishlist = isWishlisted 
+            ? userData.wishlist.filter(id => id !== product.id)
+            : [...(userData.wishlist || []), product.id];
+            
+        setIsWishlisted(!isWishlisted);
+        
+        sessionStorage.setItem('session', JSON.stringify({
+            ...userData,
+            wishlist: newWishlist
+        }));
+        
+        window.dispatchEvent(new Event('wishlistUpdated'));
+        
+        try {
+            await axios.put(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/users/wishlist`, {
+                userId: userData._id,
+                productId: product.id
+            });
+            triggerAlert(isWishlisted ? "Removed from wishlist" : "Added to wishlist");
+        } catch (error) {
+            console.error("Error toggling wishlist", error);
+        }
     };
 
     const containerVariants = {
@@ -155,8 +211,20 @@ const ProductInfoSection = () => {
                 </motion.div>
                 <motion.div variants={itemVariants} className="space-y-8">
                     <div>
-                        <span className="font-label-md text-label-md text-secondary uppercase tracking-wider">{product?.category || "Enterprise Performance"}</span>
-                        <h1 className="font-display-lg text-display-lg text-primary mt-2">{product?.title || "Nexus-Core V2 Server"}</h1>
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <span className="font-label-md text-label-md text-secondary uppercase tracking-wider">{product?.category || "Enterprise Performance"}</span>
+                                <h1 className="font-display-lg text-display-lg text-primary mt-2">{product?.title || "Nexus-Core V2 Server"}</h1>
+                            </div>
+                            <button 
+                                onClick={handleToggleWishlist}
+                                className="p-3 bg-surface-container rounded-full hover:bg-surface-container-high transition-colors text-primary shadow-sm"
+                            >
+                                <span className={`material-symbols-outlined text-[24px] ${isWishlisted ? 'text-error' : 'text-on-surface-variant'}`} style={{ fontVariationSettings: isWishlisted ? "'FILL' 1" : "'FILL' 0" }}>
+                                    favorite
+                                </span>
+                            </button>
+                        </div>
                         <div className="flex items-baseline gap-4 mt-4">
                             <span className="font-headline-lg text-headline-lg text-secondary">{product?.price || "$4,299.00"}</span>
                             <span className="font-body-sm text-body-sm text-on-surface-variant">Starting from price</span>

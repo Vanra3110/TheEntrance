@@ -31,7 +31,7 @@ function CartItemCard(props) {
 
         // Sync with backend
         try {
-            axios.put('http://localhost:5000/api/auth/cart', {
+            axios.put(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/cart`, {
                 email: userData.email,
                 cartItems
             }).catch(err => console.error("Error syncing cart", err));
@@ -61,7 +61,7 @@ function CartItemCard(props) {
 
         // Sync with backend
         try {
-            axios.put('http://localhost:5000/api/auth/cart', {
+            axios.put(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/cart`, {
                 email: userData.email,
                 cartItems
             }).catch(err => console.error("Error syncing cart", err));

@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 // import Footer from '../../components/Footer';
-import AdminProducts from './AdminProducts';
+import ManageProducts from './ManageProducts';
 import AdminUsers from './AdminUsers';
-import AdminOrders from './AdminOrders';
-import AdminAnalytics from './AdminAnalytics';
+import ManageOrders from './ManageOrders';
+import AnalyticsSummary from './AnalyticsSummary';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -156,16 +156,16 @@ const AdminDashboard = () => {
                                     </div>
                                 )}
                                 {activeTab === 'products' && (
-                                    <AdminProducts />
+                                    <ManageProducts />
                                 )}
                                 {activeTab === 'users' && (
                                     <AdminUsers />
                                 )}
                                 {activeTab === 'orders' && (
-                                    <AdminOrders />
+                                    <ManageOrders />
                                 )}
                                 {activeTab === 'analytics' && (
-                                    <AdminAnalytics />
+                                    <AnalyticsSummary />
                                 )}
                             </motion.div>
                         </section>

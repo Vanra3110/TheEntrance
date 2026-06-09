@@ -109,7 +109,7 @@ const SignupForm = () => {
             };
 
             const { data } = await axios.post(
-                'http://localhost:5000/api/auth/register',
+                `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/register`,
                 { first_name, last_name, email, phone, password },
                 config
             );

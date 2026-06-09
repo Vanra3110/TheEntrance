@@ -51,9 +51,21 @@ const userSchema = new mongoose.Schema({
         type: Object,
         default: {}
     },
+    wishlist: {
+        type: [String],
+        default: []
+    },
     isAdmin: {
         type: Boolean,
         default: false
+    },
+    resetPasswordOTP: {
+        type: String,
+        default: null
+    },
+    resetPasswordExpire: {
+        type: Date,
+        default: null
     }
 }, {
     timestamps: true,

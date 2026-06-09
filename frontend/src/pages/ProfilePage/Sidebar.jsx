@@ -12,6 +12,10 @@ const Sidebar = ({ activeTab, setActiveTab, handleAuthClick }) => {
                     <span className="material-symbols-outlined">history</span>
                     <span className="font-label-md text-label-md">Order History</span>
                 </button>
+                <button onClick={() => setActiveTab('wishlist')} className={`flex w-full items-center gap-3 px-4 py-3 rounded transition-all ${activeTab === 'wishlist' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}>
+                    <span className="material-symbols-outlined">favorite</span>
+                    <span className="font-label-md text-label-md">My Wishlist</span>
+                </button>
                 <div className="my-4 border-t border-outline-variant"></div>
                 <button className="flex items-center gap-3 px-4 py-3 rounded-full bg-error-container text-error hover:opacity-80 hover:scale-105 active:scale-90 transition-all" onClick={handleAuthClick}>
                     <span className="material-symbols-outlined">logout</span>

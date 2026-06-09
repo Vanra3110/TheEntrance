@@ -5,11 +5,22 @@ import Alert from '../../components/Alert';
 import ShippingForm from './ShippingForm';
 import OrderSummary from './OrderSummary';
 
+const loadScript = (src) => {
+    return new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.body.appendChild(script);
+    });
+};
+
 const CheckoutPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
     const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [alertMessage, setAlertMessage] = useState({ title: '', message: '', type: 'info' });
 
     // Products passed via Link state
@@ -34,7 +45,7 @@ const CheckoutPage = () => {
             const parsedSession = JSON.parse(session);
             setUserData(parsedSession);
 
-            axios.get(`http://localhost:5000/api/auth/profile/${parsedSession._id}`)
+            axios.get(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/auth/profile/${parsedSession._id}`)
                 .then(res => {
                     const profile = res.data;
                     setShippingForm(prev => ({
@@ -116,32 +127,108 @@ const CheckoutPage = () => {
         };
 
         try {
-            await axios.post('http://localhost:5000/api/orders', orderData);
-
-            // If the user bought from the cart, we should ideally clear the cart here.
-            // For simplicity, we just trigger the cart clear in sessionStorage if it was a cart checkout
-            if (location.state?.fromCart) {
-                const session = JSON.parse(sessionStorage.getItem('session'));
-                session.cartItems = {};
-                session.cartCount = 0;
-                sessionStorage.setItem('session', JSON.stringify(session));
-                window.dispatchEvent(new Event('cartUpdated'));
+            setIsLoading(true);
+            // 1. Load Razorpay script
+            const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+            if (!res) {
+                setAlertMessage({ title: 'Error', message: 'Razorpay SDK failed to load. Are you online?', type: 'danger' });
+                setIsAlertOpen(true);
+                setIsLoading(false);
+                return;
             }
 
-            setAlertMessage({
-                title: 'Order Placed Successfully!',
-                message: 'You can check the status of your order in your Profile dashboard.',
-                type: 'success'
+            // 2. Create Razorpay order
+            const result = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/orders/create-razorpay-order`, {
+                totalAmount: total
             });
-            setIsAlertOpen(true);
+
+            if (!result || !result.data) {
+                setAlertMessage({ title: 'Error', message: 'Server error. Please try again.', type: 'danger' });
+                setIsAlertOpen(true);
+                setIsLoading(false);
+                return;
+            }
+
+            const { amount, id: order_id, currency } = result.data;
+
+            // 3. Initialize Razorpay popup
+            const options = {
+                key: 'rzp_test_Sz0lpbsBabsX9m', // The test key from the backend .env
+                amount: amount.toString(),
+                currency: currency,
+                name: 'The Entrance',
+                description: 'Order Payment',
+                order_id: order_id,
+                handler: async function (response) {
+                    try {
+                        setIsLoading(true);
+                        const data = {
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_signature: response.razorpay_signature,
+                            orderData: orderData
+                        };
+
+                        // 4. Verify payment
+                        const verifyResult = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/orders/verify-payment`, data);
+
+                        if (verifyResult.status === 200) {
+                            if (location.state?.fromCart) {
+                                const session = JSON.parse(sessionStorage.getItem('session'));
+                                session.cartItems = {};
+                                session.cartCount = 0;
+                                sessionStorage.setItem('session', JSON.stringify(session));
+                                window.dispatchEvent(new Event('cartUpdated'));
+                            }
+
+                            setAlertMessage({
+                                title: 'Payment Successful!',
+                                message: 'Your order has been placed successfully.',
+                                type: 'success'
+                            });
+                            setIsAlertOpen(true);
+                        }
+                    } catch (error) {
+                        console.error("Error verifying payment", error);
+                        setAlertMessage({ title: 'Error', message: 'Payment verification failed.', type: 'danger' });
+                        setIsAlertOpen(true);
+                    } finally {
+                        setIsLoading(false);
+                    }
+                },
+                prefill: {
+                    name: shippingForm.fullName,
+                    email: userData.email,
+                    contact: shippingForm.phone
+                },
+                theme: {
+                    color: '#6366f1' // Primary color matching standard theme
+                },
+                modal: {
+                    ondismiss: function () {
+                        setIsLoading(false);
+                    }
+                }
+            };
+
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.on('payment.failed', function (response) {
+                console.error(response.error);
+                setAlertMessage({ title: 'Payment Failed', message: response.error.description, type: 'danger' });
+                setIsAlertOpen(true);
+                setIsLoading(false);
+            });
+            paymentObject.open();
+
         } catch (error) {
-            console.error("Error placing order", error);
+            console.error("Error initiating payment", error);
             setAlertMessage({
                 title: 'Error',
-                message: 'There was a problem placing your order. Please try again.',
+                message: 'There was a problem initiating payment. Please try again.',
                 type: 'danger'
             });
             setIsAlertOpen(true);
+            setIsLoading(false);
         }
     };
 
@@ -155,7 +242,16 @@ const CheckoutPage = () => {
     if (checkoutItems.length === 0) return null;
 
     return (
-        <main className="flex-grow mx-auto w-full px-margin-mobile md:px-margin-desktop py-24 min-h-screen">
+        <main className="flex-grow mx-auto w-full px-margin-mobile md:px-margin-desktop py-24 min-h-screen relative">
+            {isLoading && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 backdrop-blur-sm">
+                    <div className="bg-surface p-6 rounded-2xl shadow-xl flex flex-col items-center gap-4">
+                        <span className="material-symbols-outlined animate-spin text-5xl text-primary">sync</span>
+                        <p className="text-on-surface font-medium">Processing...</p>
+                    </div>
+                </div>
+            )}
+
             <Alert
                 isOpen={isAlertOpen}
                 onClose={handleAlertClose}

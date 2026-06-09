@@ -24,3 +24,27 @@ exports.deleteUser = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
+// Toggle wishlist item
+exports.toggleWishlist = async (req, res) => {
+    try {
+        const { userId, productId } = req.body;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        
+        const index = user.wishlist.indexOf(productId);
+        if (index === -1) {
+            user.wishlist.push(productId);
+        } else {
+            user.wishlist.splice(index, 1);
+        }
+        
+        await user.save();
+        res.json({ wishlist: user.wishlist, message: "Wishlist updated" });
+    } catch (error) {
+        console.error("Error toggling wishlist:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};

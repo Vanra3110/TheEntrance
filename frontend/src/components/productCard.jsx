@@ -10,6 +10,7 @@ function ProductCard(props) {
     const [alertMessage, setAlertMessage] = React.useState("");
     const alertTimeoutRef = React.useRef(null);
     const [itemCount, setItemCount] = React.useState(0);
+    const [isWishlisted, setIsWishlisted] = React.useState(false);
 
     React.useEffect(() => {
         const updateFromSession = () => {
@@ -21,11 +22,21 @@ function ProductCard(props) {
                 } else {
                     setItemCount(0);
                 }
+
+                if (userData.wishlist && userData.wishlist.includes(props.id)) {
+                    setIsWishlisted(true);
+                } else {
+                    setIsWishlisted(false);
+                }
             }
         };
         updateFromSession();
         window.addEventListener('cartUpdated', updateFromSession);
-        return () => window.removeEventListener('cartUpdated', updateFromSession);
+        window.addEventListener('wishlistUpdated', updateFromSession);
+        return () => {
+            window.removeEventListener('cartUpdated', updateFromSession);
+            window.removeEventListener('wishlistUpdated', updateFromSession);
+        };
     }, [props.id]);
 
     const triggerAlert = (msg) => {
@@ -68,7 +79,7 @@ function ProductCard(props) {
 
         // Sync with backend
         try {
-            axios.put('http://localhost:5000/api/auth/cart', {
+            axios.put(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/cart`, {
                 email: userData.email,
                 cartItems
             }).catch(err => console.error("Error syncing cart", err));
@@ -99,7 +110,7 @@ function ProductCard(props) {
     const handleBuyNow = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        
+
         const singleProduct = {
             _id: props.id,
             name: props.title,
@@ -108,12 +119,48 @@ function ProductCard(props) {
             quantity: 1
         };
 
-        navigate('/checkout', { 
-            state: { 
-                checkoutItems: [singleProduct], 
-                fromCart: false 
-            } 
+        navigate('/checkout', {
+            state: {
+                checkoutItems: [singleProduct],
+                fromCart: false
+            }
         });
+    };
+
+    const handleToggleWishlist = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const session = sessionStorage.getItem('session');
+        if (!session) {
+            navigate('/login');
+            return;
+        }
+
+        const userData = JSON.parse(session);
+
+        const newWishlist = isWishlisted
+            ? userData.wishlist.filter(id => id !== props.id)
+            : [...(userData.wishlist || []), props.id];
+
+        setIsWishlisted(!isWishlisted);
+
+        sessionStorage.setItem('session', JSON.stringify({
+            ...userData,
+            wishlist: newWishlist
+        }));
+
+        window.dispatchEvent(new Event('wishlistUpdated'));
+
+        try {
+            await axios.put(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/users/wishlist`, {
+                userId: userData._id,
+                productId: props.id
+            });
+            triggerAlert(isWishlisted ? "Removed from wishlist" : "Added to wishlist");
+        } catch (error) {
+            console.error("Error toggling wishlist", error);
+        }
     };
 
     return (
@@ -123,12 +170,20 @@ function ProductCard(props) {
                 className="bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow duration-300 h-full cursor-pointer"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
+                viewport={{ once: true }}
                 whileHover={{ y: -8, scale: 1.02 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
             >
                 <div className="h-56 p-4 bg-surface-container-low overflow-hidden relative group">
                     <div className="w-full h-full rounded-xl overflow-hidden relative">
+                        <button
+                            onClick={handleToggleWishlist}
+                            className="absolute top-2 right-2 z-20 p-2 bg-surface/80 hover:bg-surface rounded-full shadow-sm backdrop-blur-sm transition-all"
+                        >
+                            <span className={`material-symbols-outlined text-[20px] ${isWishlisted ? 'text-error' : 'text-on-surface-variant'}`} style={{ fontVariationSettings: isWishlisted ? "'FILL' 1" : "'FILL' 0" }}>
+                                favorite
+                            </span>
+                        </button>
                         <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             alt={props.alt}
                             src={props.src} />

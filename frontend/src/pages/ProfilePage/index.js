@@ -8,6 +8,7 @@ import HeroHeader from './HeroHeader';
 import Sidebar from './Sidebar';
 import PersonalInformation from './PersonalInformation';
 import OrderHistory from './OrderHistory';
+import Wishlist from './Wishlist';
 
 const ProfilePage = () => {
     const { id } = useParams();
@@ -30,7 +31,7 @@ const ProfilePage = () => {
 
     useEffect(() => {
         if (activeTab === 'orders' && user) {
-            axios.get(`http://localhost:5000/api/orders/user/${user._id}`)
+            axios.get(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/orders/user/${user._id}`)
                 .then(res => setOrders(res.data))
                 .catch(err => console.error(err));
         }
@@ -39,7 +40,7 @@ const ProfilePage = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/auth/profile/${id}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/auth/profile/${id}`);
                 setUser(response.data);
                 setFormData(response.data);
             } catch (error) {
@@ -97,7 +98,7 @@ const ProfilePage = () => {
     const handleConfirmSave = async () => {
         setIsUpdateAlertOpen(false);
         try {
-            const response = await axios.put(`http://localhost:5000/api/auth/profile/${user._id}`, formData);
+            const response = await axios.put(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/auth/profile/${user._id}`, formData);
             setUser(response.data);
             setFormData(response.data);
             sessionStorage.setItem('session', JSON.stringify(response.data));
@@ -117,7 +118,7 @@ const ProfilePage = () => {
 
         setIsUploading(true);
         try {
-            const response = await axios.post('http://localhost:5000/api/upload', imgData, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/upload`, imgData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             setFormData({ ...formData, image: response.data.imageUrl });
@@ -216,6 +217,10 @@ const ProfilePage = () => {
 
                             {activeTab === 'orders' && (
                                 <OrderHistory orders={orders} />
+                            )}
+
+                            {activeTab === 'wishlist' && (
+                                <Wishlist user={user} />
                             )}
                         </section>
                     </div>

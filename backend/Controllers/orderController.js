@@ -36,7 +36,7 @@ exports.createOrder = async (req, res) => {
         if (user) {
             const productNames = items.map(i => `${i.quantity}x ${i.name}`).join(', ');
             try {
-                await sendEmail({
+                sendEmail({
                     email: user.email,
                     subject: 'Order Confirmation - The Entrance',
                     message: `Hi ${user.first_name},\n\nYour order for ${items.length} item(s) totaling $${totalAmount} has been confirmed.\n\nProducts:\n${productNames}\n\nThank you for shopping with us!`,
@@ -91,7 +91,7 @@ exports.updateOrderStatus = async (req, res) => {
         if (order.userId && ['Shipped', 'Delivered', 'Cancelled'].includes(status)) {
             const productNames = order.items.map(i => `${i.quantity}x ${i.name}`).join(', ');
             try {
-                await sendEmail({
+                sendEmail({
                     email: order.userId.email,
                     subject: `Order Update: ${status} - The Entrance`,
                     message: `Hi ${order.userId.first_name},\n\nThe status of your order has been updated to: ${status}.\n\nOrder contents:\n${productNames}\n\nThank you!`,
@@ -186,7 +186,7 @@ exports.verifyPayment = async (req, res) => {
             if (user) {
                 const productNames = items.map(i => `${i.quantity}x ${i.name}`).join(', ');
                 try {
-                    await sendEmail({
+                    sendEmail({
                         email: user.email,
                         subject: 'Order Confirmation - The Entrance',
                         message: `Hi ${user.first_name},\n\nYour order for ${items.length} item(s) totaling ₹${totalAmount} has been confirmed.\n\nPayment ID: ${razorpay_payment_id}\n\nProducts:\n${productNames}\n\nThank you for shopping with us!`,

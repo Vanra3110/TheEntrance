@@ -96,7 +96,6 @@ const OrderHistory = ({ orders }) => {
                                             {timelineSteps.map((step, index) => {
                                                 const currentIdx = timelineSteps.indexOf(selectedOrder.status);
                                                 const isCompleted = index <= currentIdx;
-                                                const isActive = index === currentIdx;
 
                                                 return (
                                                     <div key={step} className="relative z-20 flex flex-col items-center gap-3">

@@ -12,7 +12,7 @@ const ForgetPassForm = () => {
     const [validError, setValidError] = useState('');
     const [success, setSuccess] = useState('');
     const [verificationCode, setVerificationCode] = useState(''); // Verification Code input
-    const [generatedCode, setGeneratedCode] = useState(''); // Generated Verification Code
+
     const [formData, setFormData] = useState({
         password: '',
         confirm_password: ''

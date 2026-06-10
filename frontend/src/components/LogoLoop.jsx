@@ -30,6 +30,7 @@ const useResizeObserver = (callback, containerRef, seqRef, dependencies) => {
     return () => {
       observers.forEach(observer => observer?.disconnect());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [callback, containerRef, seqRef, ...dependencies]);
 };
 
@@ -250,7 +251,6 @@ export const LogoLoop = memo(
               )}
               style={{ fontSize: 'var(--logoloop-logoHeight)' }}
               key={key}
-              role="listitem"
             >
               {renderItem(item, key)}
             </li>
@@ -324,7 +324,6 @@ export const LogoLoop = memo(
             )}
             style={{ fontSize: 'var(--logoloop-logoHeight)' }}
             key={key}
-            role="listitem"
           >
             {inner}
           </li>
@@ -339,7 +338,6 @@ export const LogoLoop = memo(
           <ul
             className={cx('flex items-center', isVertical && 'flex-col')}
             key={`copy-${copyIndex}`}
-            role="list"
             aria-hidden={copyIndex > 0}
             ref={copyIndex === 0 ? seqRef : undefined}
           >

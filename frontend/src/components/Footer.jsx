@@ -51,13 +51,13 @@ const Footer = () => {
                         </div>
 
                         <div className="flex gap-4 mt-4 md:mt-6">
-                            <a href="#" className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-surface hover:bg-primary hover:text-on-primary hover:border-primary transition-all group">
+                            <a href="/" className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-surface hover:bg-primary hover:text-on-primary hover:border-primary transition-all group">
                                 <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">share</span>
                             </a>
-                            <a href="#" className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-surface hover:bg-primary hover:text-on-primary hover:border-primary transition-all group">
+                            <a href="/" className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-surface hover:bg-primary hover:text-on-primary hover:border-primary transition-all group">
                                 <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">mail</span>
                             </a>
-                            <a href="#" className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-surface hover:bg-primary hover:text-on-primary hover:border-primary transition-all group">
+                            <a href="/" className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-surface hover:bg-primary hover:text-on-primary hover:border-primary transition-all group">
                                 <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">public</span>
                             </a>
                         </div>

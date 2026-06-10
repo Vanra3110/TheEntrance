@@ -52,7 +52,7 @@ const HeroSection = () => {
                             initial={{ opacity: 0, scale: 1.2 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.8, ease: "easeInOut" }}
-                            className="font-display-lg font-bold md:text[50px] text-[35px] md:text-[70px] text-on-surface mb-10 leading-tight">
+                            className="font-display-lg font-bold md:text-[50px] text-[35px] text-on-surface mb-10 leading-tight">
                             <ShinyText
                                 text="Enterprise-Grade Solutions for Your Business"
                                 speed={2}

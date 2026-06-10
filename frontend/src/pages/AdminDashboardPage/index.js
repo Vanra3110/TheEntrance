@@ -49,42 +49,42 @@ const AdminDashboard = () => {
                         {/* Sidebar Navigation */}
                         <aside className="col-span-12 md:col-span-3">
                             <nav className="flex flex-col gap-1">
-                                <a
-                                    className={`flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'overview' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
+                                <button type="button"
+                                    className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'overview' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
                                     onClick={() => setActiveTab('overview')}
                                 >
                                     <span className="material-symbols-outlined">dashboard</span>
                                     <span className="font-label-md text-label-md">Overview</span>
-                                </a>
-                                <a
-                                    className={`flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'products' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
+                                </button>
+                                <button type="button"
+                                    className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'products' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
                                     onClick={() => setActiveTab('products')}
                                 >
                                     <span className="material-symbols-outlined">inventory_2</span>
                                     <span className="font-label-md text-label-md">Products</span>
-                                </a>
-                                <a
-                                    className={`flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'users' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
+                                </button>
+                                <button type="button"
+                                    className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'users' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
                                     onClick={() => setActiveTab('users')}
                                 >
                                     <span className="material-symbols-outlined">group</span>
                                     <span className="font-label-md text-label-md">Users</span>
-                                </a>
-                                <a
-                                    className={`flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'orders' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
+                                </button>
+                                <button type="button"
+                                    className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'orders' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
                                     onClick={() => setActiveTab('orders')}
                                 >
                                     <span className="material-symbols-outlined">shopping_cart</span>
                                     <span className="font-label-md text-label-md">Orders</span>
-                                </a>
-                                <a
-                                    className={`flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'analytics' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
+                                </button>
+                                <button type="button"
+                                    className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'analytics' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
                                     onClick={() => setActiveTab('analytics')}
                                 >
                                     <span className="material-symbols-outlined">analytics</span>
                                     <span className="font-label-md text-label-md">Analytics</span>
-                                </a>
-                                <div className="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:bg-surface-container-low transition-all cursor-pointer">
+                                </button>
+                                <div className="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:bg-surface-container-low transition-all cursor-pointer w-full text-left">
                                     <span className="material-symbols-outlined">settings</span>
                                     <span className="font-label-md text-label-md">Settings</span>
                                 </div>

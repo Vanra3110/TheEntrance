@@ -38,13 +38,13 @@ export default function Menu(props) {
                     className="text-gray-400 hover:text-blue-400"
                 />
 
-                <BottomNavigationAction
+                {/* <BottomNavigationAction
                     // component={Link}
                     // to="/solutions"
                     value="/solutions"
                     label="Solutions"
                     className="text-gray-400 hover:text-blue-400"
-                />
+                /> */}
 
                 <BottomNavigationAction
                     component={Link}

@@ -85,7 +85,7 @@ const HeroSection = () => {
                                 showCursor={true}
                                 cursorCharacter="|"
                                 cursorColor="white"
-                                deletingSpeed={30}
+                                deletingSpeed={0}
 
                                 cursorBlinkDuration={0.5}
                                 textColors={["#f8fafc", "#f1f5f9",

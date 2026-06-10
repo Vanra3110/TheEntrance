@@ -688,6 +688,10 @@ video {
   right: 2.5rem;
 }
 
+.right-2 {
+  right: 0.5rem;
+}
+
 .right-3 {
   right: 0.75rem;
 }
@@ -706,6 +710,10 @@ video {
 
 .top-1\/2 {
   top: 50%;
+}
+
+.top-2 {
+  top: 0.5rem;
 }
 
 .top-24 {
@@ -730,14 +738,6 @@ video {
 
 .top-\[20px\] {
   top: 20px;
-}
-
-.right-2 {
-  right: 0.5rem;
-}
-
-.top-2 {
-  top: 0.5rem;
 }
 
 .isolate {
@@ -1277,10 +1277,6 @@ video {
 
 .max-w-sm {
   max-width: 24rem;
-}
-
-.max-w-xl {
-  max-width: 36rem;
 }
 
 .flex-1 {
@@ -1893,6 +1889,10 @@ video {
   background-color: rgb(241 245 249 / 0.95);
 }
 
+.bg-surface\/80 {
+  background-color: rgb(255 255 255 / 0.8);
+}
+
 .bg-tertiary {
   --tw-bg-opacity: 1;
   background-color: rgb(124 58 237 / var(--tw-bg-opacity, 1));
@@ -1914,10 +1914,6 @@ video {
 
 .bg-white\/10 {
   background-color: rgb(255 255 255 / 0.1);
-}
-
-.bg-surface\/80 {
-  background-color: rgb(255 255 255 / 0.8);
 }
 
 .bg-\[linear-gradient\(to_bottom\2c var\(--logoloop-fadeColor\2c var\(--logoloop-fadeColorAuto\)\)_0\%\2c rgba\(0\2c 0\2c 0\2c 0\)_100\%\)\] {
@@ -2314,6 +2310,10 @@ video {
   font-size: 20px;
 }
 
+.text-\[24px\] {
+  font-size: 24px;
+}
+
 .text-\[32px\] {
   font-size: 32px;
 }
@@ -2324,6 +2324,10 @@ video {
 
 .text-\[48px\] {
   font-size: 48px;
+}
+
+.text-\[64px\] {
+  font-size: 64px;
 }
 
 .text-base {
@@ -2401,14 +2405,6 @@ video {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.text-\[24px\] {
-  font-size: 24px;
-}
-
-.text-\[64px\] {
-  font-size: 64px;
 }
 
 .font-bold {
@@ -3008,6 +3004,11 @@ code {
   background-color: rgb(30 41 59 / 0.9);
 }
 
+.hover\:bg-surface:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-surface-container:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity, 1));
@@ -3039,11 +3040,6 @@ code {
 
 .hover\:bg-transparent:hover {
   background-color: transparent;
-}
-
-.hover\:bg-surface:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:text-blue-400:hover {
@@ -3384,14 +3380,14 @@ code {
     grid-column: span 9 / span 9;
   }
 
-  .md\:mx-margin-mobile {
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-
   .md\:mx-4 {
     margin-left: 1rem;
     margin-right: 1rem;
+  }
+
+  .md\:mx-margin-mobile {
+    margin-left: 16px;
+    margin-right: 16px;
   }
 
   .md\:mb-2 {

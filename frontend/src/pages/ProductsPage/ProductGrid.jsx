@@ -46,7 +46,7 @@ const ProductGrid = ({ products, sortOption, setSortOption, loading }) => {
 
             {loading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
-                    {Array.from({ length: 6 }).map((_, i) => (
+                    {Array.from({ length: products.length }).map((_, i) => (
                         <div key={i} className="flex flex-col gap-4">
                             <Skeleton height={250} borderRadius={8} />
                             <Skeleton count={2} />

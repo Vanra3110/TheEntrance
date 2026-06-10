@@ -18,7 +18,7 @@ const FilterSidebar = ({ selectedCategories, setSelectedCategories, priceRange, 
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="w-full lg:w-64 flex-shrink-0"
         >
-            <div className="bg-surface-container-lowest border border-outline-variant p-6 rounded-lg sticky top-24">
+            <div className="bg-surface-container-lowest border border-outline-variant p-4 rounded-lg sticky top-24">
                 <h2 className="font-headline-md text-headline-md text-primary mb-6">Filters</h2>
                 <div className="mb-8">
                     <h3 className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-4">Category</h3>

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import CartItemCard from '../../components/CartItemCard';
 import productsData from '../../data/productsData';
 import { motion, AnimatePresence } from 'framer-motion';
+import SafeBackButton from '../../components/safeBackButton';
 
 function CartPage() {
     const [cartItems, setCartItems] = useState({});
@@ -39,7 +40,8 @@ function CartPage() {
     const total = subtotal + tax;
 
     return (
-        <main className="flex-grow mx-auto w-full px-margin-desktop py-12 min-h-[80vh]">
+        <main className="flex-grow mx-auto w-full px-margin-desktop py-12 min-h-[80vh] relative">
+            <SafeBackButton isHeader={false} />
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}

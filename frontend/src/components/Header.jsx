@@ -6,6 +6,7 @@ import Menu from './Menu';
 import BurgerMenu from './BurgerMenu';
 import MobileDrawer from './Drawer';
 import ShoppingCart from './ShoppingCart';
+import SafeBackButton from './safeBackButton';
 
 const Header = () => {
     const [isLoggedin, setIsLoggedin] = useState(false);
@@ -81,13 +82,14 @@ const Header = () => {
                 <div className="flex justify-center items-center gap-3">
                     {isLoggedin && <ShoppingCart badgeContent={cartCount} onClick={() => navigate('/cart')} />}
                     {isLoggedin && <BurgerMenu onLogoutClick={handleAuthClick} />}
-                    {isLoggedin && <MobileDrawer />}
+                    {isLoggedin && <MobileDrawer userData={userData}/>}
                     {!isLoggedin && <button
                         className="flex px-6 py-2 border border-surface bg-primary dark:bg-primary text-white font-semibold rounded-full shadow-sm hover:scale-105 hover:bg-primary-container hover:text-on-primary-container hover:cursor-pointer active:scale-95 transition-all duration-200 flex items-center justify-center"
                         onClick={handleAuthClick}
                     >
                         Login
                     </button>}
+                    <SafeBackButton />
                 </div>
             </header>
         </>

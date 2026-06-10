@@ -91,8 +91,8 @@ function ProductsPage() {
     return (
         <>
             <Header />
-            <main className="pt-24 pb-16 px-margin-desktop mx-auto min-h-[80vh] max-w-container-max">
-                <div className="mb-10 max-w-2xl mx-auto w-full">
+            <main className="mt-10 md:mt-0 pt-24 pb-16 px-margin-desktop mx-auto min-h-[80vh] max-w-container-max">
+                <div className="mb-5 max-w-2xl mx-auto w-full">
                     <form onSubmit={handleSearchSubmit} className="flex items-center bg-surface border border-outline-variant rounded-full px-4 py-3 transition-all focus-within:ring-2 focus-within:ring-primary focus-within:border-primary shadow-sm">
                         <span className="material-symbols-outlined text-on-surface-variant mr-3">search</span>
                         <input

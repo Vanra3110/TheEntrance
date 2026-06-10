@@ -9,17 +9,34 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 
-const navItems = [
-    { label: 'Home', path: '/' },
-    { label: 'Solutions', path: '/solutions' },
-    { label: 'Products', path: '/products' },
-    { label: 'Support', path: '/support' },
-    { label: 'Enterprise', path: '/enterprise' }
-];
 
-export default function MobileDrawer() {
+
+
+function MobileDrawer(props) {
     const [open, setOpen] = React.useState(false);
+    const userData = props.userData;
+    if (!userData) {
+        return null
+    }
 
+    let navItems = [
+    { label: 'Home', path: '/' },
+    // { label: 'Solutions', path: '/solutions' },
+    { label: 'Products', path: '/products' },
+    // { label: 'Enterprise', path: '/admin-dashboard' },
+    { label: 'Support', path: '/support' }
+    ];
+
+    if (userData.isAdmin){
+        navItems = [
+            { label: 'Home', path: '/' },
+            // { label: 'Solutions', path: '/solutions' },
+            { label: 'Products', path: '/products' },
+            { label: 'Admin Dashboard', path: '/admin-dashboard' },
+            { label: 'Support', path: '/support' }
+        ];
+    }
+    
     const toggleDrawer = (newOpen) => (event) => {
         if (
             event &&
@@ -102,3 +119,5 @@ export default function MobileDrawer() {
         </div>
     );
 }
+
+export default MobileDrawer;

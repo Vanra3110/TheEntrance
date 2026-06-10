@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import ProductCard from '../../components/productCard';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import axios from 'axios';
 
@@ -21,6 +23,7 @@ const cardVariants = {
 
 const FeaturedProductsSection = () => {
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -29,6 +32,8 @@ const FeaturedProductsSection = () => {
                 setProducts(response.data);
             } catch (error) {
                 console.error("Failed to fetch products", error);
+            } finally {
+                setLoading(false);
             }
         };
         fetchProducts();
@@ -59,27 +64,36 @@ const FeaturedProductsSection = () => {
                     viewport={{ once: true, amount: 0.2 }}
                     className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter"
                 >
-                    {products.map((product, index) => (
-                        <>
-                            {product.id <= 4 &&
-                                <motion.div key={index} variants={cardVariants} className="h-full">
-                                    <Link
-                                        to={`/details/${product.id}`}
-                                        style={{ textDecoration: 'none' }}
-                                        onClick={() => localStorage.setItem('selectedProduct', JSON.stringify(product))}
-                                    >
-                                        <ProductCard
-                                            id={product.id}
-                                            title={product.title}
-                                            price={product.price}
-                                            src={product.src}
-                                            alt={product.alt}
-                                        />
-                                    </Link>
-                                </motion.div>
-                            }
-                        </>
-                    ))}
+                    {loading ? (
+                        Array.from({ length: 4 }).map((_, i) => (
+                            <div key={i} className="flex flex-col gap-4 h-full">
+                                <Skeleton height={250} borderRadius={8} />
+                                <Skeleton count={2} />
+                            </div>
+                        ))
+                    ) : (
+                        products.map((product, index) => (
+                            <React.Fragment key={index}>
+                                {product.id <= 4 &&
+                                    <motion.div variants={cardVariants} className="h-full">
+                                        <Link
+                                            to={`/details/${product.id}`}
+                                            style={{ textDecoration: 'none' }}
+                                            onClick={() => localStorage.setItem('selectedProduct', JSON.stringify(product))}
+                                        >
+                                            <ProductCard
+                                                id={product.id}
+                                                title={product.title}
+                                                price={product.price}
+                                                src={product.src}
+                                                alt={product.alt}
+                                            />
+                                        </Link>
+                                    </motion.div>
+                                }
+                            </React.Fragment>
+                        ))
+                    )}
                 </motion.div>
             </div>
         </section>

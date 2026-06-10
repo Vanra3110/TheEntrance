@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { generateInvoice } from '../../utils/generateInvoice';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
-const OrderHistory = ({ orders }) => {
+const OrderHistory = ({ orders, loading }) => {
     const [selectedOrder, setSelectedOrder] = useState(null);
 
     const timelineSteps = ['Pending', 'Processing', 'Shipped', 'Delivered'];
@@ -10,7 +12,40 @@ const OrderHistory = ({ orders }) => {
     return (
         <div className="bg-surface-container-lowest border border-outline-variant p-margin-desktop rounded shadow-sm relative">
             <h2 className="font-headline-md text-headline-md text-primary mb-6">Order History</h2>
-            {orders.length === 0 ? (
+            {loading ? (
+                <SkeletonTheme baseColor="rgba(255,255,255,0.1)" highlightColor="rgba(255,255,255,0.2)">
+                    <div className="space-y-6">
+                        {[1, 2, 3].map((_, idx) => (
+                            <div key={idx} className="border border-white/10 rounded-2xl p-6 flex flex-col gap-4 bg-tertiary opacity-80">
+                                <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 sm:gap-0 border-b border-white/10 pb-4">
+                                    <div>
+                                        <Skeleton width={120} height={16} className="mb-2" />
+                                        <Skeleton width={200} height={12} />
+                                    </div>
+                                    <div className="flex flex-col items-start sm:items-end gap-1">
+                                        <Skeleton width={80} height={24} />
+                                        <Skeleton width={70} height={24} borderRadius={12} />
+                                    </div>
+                                </div>
+                                <div className="space-y-3 mt-2">
+                                    {[1, 2].map((_, i) => (
+                                        <div key={i} className="flex gap-4 items-center">
+                                            <Skeleton width={64} height={64} borderRadius={8} />
+                                            <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4">
+                                                <div className="flex-1 min-w-0">
+                                                    <Skeleton width="75%" height={16} className="mb-2" />
+                                                    <Skeleton width="25%" height={12} />
+                                                </div>
+                                                <Skeleton width={60} height={16} className="shrink-0" />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </SkeletonTheme>
+            ) : orders.length === 0 ? (
                 <p className="text-on-surface-variant">You have no past orders.</p>
             ) : (
                 <div className="space-y-6">

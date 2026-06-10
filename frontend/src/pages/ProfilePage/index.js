@@ -27,13 +27,16 @@ const ProfilePage = () => {
     const location = useLocation();
     const [activeTab, setActiveTab] = useState(location.state?.activeTab || 'personal');
     const [orders, setOrders] = useState([]);
+    const [ordersLoading, setOrdersLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (activeTab === 'orders' && user) {
+            setOrdersLoading(true);
             axios.get(`${process.env.REACT_APP_API_URL || `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}`}/api/orders/user/${user._id}`)
                 .then(res => setOrders(res.data))
-                .catch(err => console.error(err));
+                .catch(err => console.error(err))
+                .finally(() => setOrdersLoading(false));
         }
     }, [activeTab, user]);
 
@@ -216,7 +219,7 @@ const ProfilePage = () => {
                             )}
 
                             {activeTab === 'orders' && (
-                                <OrderHistory orders={orders} />
+                                <OrderHistory orders={orders} loading={ordersLoading} />
                             )}
 
                             {activeTab === 'wishlist' && (

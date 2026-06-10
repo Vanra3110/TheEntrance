@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { generateInvoice } from '../../utils/generateInvoice';
 
 const OrderHistory = ({ orders }) => {
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -17,27 +18,41 @@ const OrderHistory = ({ orders }) => {
                         <div
                             key={order._id}
                             onClick={() => setSelectedOrder(order)}
-                            className="border border-outline-variant rounded-lg p-6 flex flex-col gap-4 bg-surface cursor-pointer hover:shadow-md hover:border-primary/50 transition-all active:scale-[0.99]"
+                            className="group relative border border-white/10 rounded-2xl p-6 flex flex-col gap-4 bg-tertiary overflow-hidden cursor-pointer shadow-sm hover:shadow-xl hover:shadow-black/20 hover:border-white/30 hover:bg-on-tertiary-container
+                            hover:scale-105  transition-all duration-300 active:scale-[0.98]"
                         >
-                            <div className="flex justify-between items-center border-b border-outline-variant pb-4">
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                            <div className="relative z-10 flex flex-col sm:flex-row justify-between sm:items-center gap-4 sm:gap-0 border-b border-white/10 pb-4">
                                 <div>
-                                    <p className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Order #{order._id.substring(0, 8)}</p>
-                                    <p className="font-body-sm text-body-sm text-on-surface-variant">Placed on {new Date(order.createdAt).toLocaleDateString()}</p>
+                                    <p className="font-label-sm text-label-sm text-white/70 uppercase tracking-wider">Order #{order._id.substring(0, 8)}</p>
+                                    <p className="font-body-sm text-body-sm text-white/70">Placed on {new Date(order.createdAt).toLocaleDateString()}</p>
                                 </div>
-                                <div className="text-right">
-                                    <p className="font-headline-sm text-headline-sm text-primary">₹{order.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                                    <span className={`inline-block px-3 py-1 rounded-full text-label-sm font-label-sm mt-1 ${order.status === 'Delivered' ? 'bg-primary-container text-on-primary-container' : 'bg-surface-container-high text-on-surface'}`}>{order.status}</span>
+                                <div className="text-left sm:text-right flex flex-col items-start sm:items-end gap-1">
+                                    <p className="font-headline-sm text-headline-sm text-white">₹{order.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                                    <span className={`inline-block px-3 py-1 rounded-full text-label-sm font-label-sm ${order.status === 'Delivered' ? 'bg-tertiary-container text-on-tertiary-container' : 'bg-white/20 text-white'}`}>{order.status}</span>
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            generateInvoice(order);
+                                        }}
+                                        className="mt-1 text-tertiary-fixed hover:text-white font-label-sm text-label-sm flex items-center gap-1 transition-colors"
+                                    >
+                                        <span className="material-symbols-outlined text-[18px]">download</span>
+                                        Download Invoice
+                                    </button>
                                 </div>
                             </div>
-                            <div className="space-y-3">
+                            <div className="relative z-10 space-y-3">
                                 {order.items.map((item, idx) => (
-                                    <div key={idx} className="flex gap-4 items-center">
-                                        <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded border border-outline-variant" />
-                                        <div className="flex-1">
-                                            <p className="font-label-md text-label-md text-on-surface line-clamp-1">{item.name}</p>
-                                            <p className="font-body-sm text-body-sm text-on-surface-variant">Qty: {item.quantity}</p>
+                                    <div key={idx} className="flex gap-4 items-start sm:items-center">
+                                        <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded border border-white/10 shrink-0" />
+                                        <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4">
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-label-md text-label-md text-white line-clamp-2 sm:line-clamp-1">{item.name}</p>
+                                                <p className="font-body-sm text-body-sm text-white/70">Qty: {item.quantity}</p>
+                                            </div>
+                                            <div className="font-label-md text-label-md text-white shrink-0">{item.price}</div>
                                         </div>
-                                        <div className="font-label-md text-label-md text-secondary">{item.price}</div>
                                     </div>
                                 ))}
                             </div>
@@ -55,17 +70,27 @@ const OrderHistory = ({ orders }) => {
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
                             className="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-lg w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]"
                         >
-                            <div className="p-6 border-b border-outline-variant flex justify-between items-center bg-surface sticky top-0">
+                            <div className="p-6 border-b border-outline-variant flex justify-between items-center bg-surface sticky top-0 z-10">
                                 <div>
                                     <h3 className="font-headline-sm text-headline-sm text-primary">Track Order</h3>
                                     <p className="text-sm text-on-surface-variant font-mono mt-1">#{selectedOrder._id}</p>
                                 </div>
-                                <button
-                                    onClick={() => setSelectedOrder(null)}
-                                    className="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors p-2 rounded-full hover:bg-error-container/20"
-                                >
-                                    close
-                                </button>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => generateInvoice(selectedOrder)}
+                                        className="material-symbols-outlined text-primary hover:text-primary/80 transition-colors p-2 rounded-full hover:bg-primary-container/20"
+                                        title="Download Invoice"
+                                    >
+                                        download
+                                    </button>
+                                    <button
+                                        onClick={() => setSelectedOrder(null)}
+                                        className="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors p-2 rounded-full hover:bg-error-container/20"
+                                        title="Close"
+                                    >
+                                        close
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="p-6 overflow-y-auto">
@@ -126,14 +151,16 @@ const OrderHistory = ({ orders }) => {
                                     <h4 className="font-label-lg text-label-lg text-on-surface mb-3 pb-2 border-b border-outline-variant">Order Summary</h4>
                                     <div className="space-y-3">
                                         {selectedOrder.items.map((item, idx) => (
-                                            <div key={idx} className="flex gap-4 items-center">
-                                                <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded border border-outline-variant" />
-                                                <div className="flex-1">
-                                                    <p className="font-label-sm text-label-sm text-on-surface line-clamp-1">{item.name}</p>
-                                                    <p className="font-body-sm text-xs text-on-surface-variant">Qty: {item.quantity}</p>
-                                                </div>
-                                                <div className="font-label-sm text-label-sm font-medium text-secondary">
-                                                    {item.price}
+                                            <div key={idx} className="flex gap-4 items-start sm:items-center">
+                                                <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded border border-outline-variant shrink-0" />
+                                                <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4">
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="font-label-sm text-label-sm text-on-surface line-clamp-2 sm:line-clamp-1">{item.name}</p>
+                                                        <p className="font-body-sm text-xs text-on-surface-variant">Qty: {item.quantity}</p>
+                                                    </div>
+                                                    <div className="font-label-sm text-label-sm font-medium text-secondary shrink-0">
+                                                        {item.price}
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}

@@ -4,8 +4,9 @@ export default function SafeBackButton({ isHeader = true }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Don't show the back button if we are already on the home page
-  if (location.pathname === "/") {
+  // Don't show the back button on home and authentication pages
+  const hiddenPaths = ["/", "/login", "/signup", "/forget-password"];
+  if (hiddenPaths.includes(location.pathname)) {
     return null;
   }
 

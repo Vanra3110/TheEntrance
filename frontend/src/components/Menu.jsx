@@ -55,9 +55,9 @@ export default function Menu(props) {
                 />
 
                 <BottomNavigationAction
-                    // component={Link}
-                    // to="/support"
-                    value="/support"
+                    component={Link}
+                    to="/contacts"
+                    value="/contacts"
                     label="Support"
                     className="text-gray-400 hover:text-blue-400"
                 />

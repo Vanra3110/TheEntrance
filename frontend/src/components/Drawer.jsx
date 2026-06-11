@@ -24,7 +24,7 @@ function MobileDrawer(props) {
     // { label: 'Solutions', path: '/solutions' },
     { label: 'Products', path: '/products' },
     // { label: 'Enterprise', path: '/admin-dashboard' },
-    { label: 'Support', path: '/support' }
+    { label: 'Support', path: '/contacts' }
     ];
 
     if (userData.isAdmin){
@@ -33,7 +33,7 @@ function MobileDrawer(props) {
             // { label: 'Solutions', path: '/solutions' },
             { label: 'Products', path: '/products' },
             { label: 'Admin Dashboard', path: '/admin-dashboard' },
-            { label: 'Support', path: '/support' }
+            { label: 'Support', path: '/contacts' }
         ];
     }
     
@@ -85,10 +85,10 @@ function MobileDrawer(props) {
             </List>
 
             <div className="absolute bottom-0 w-full p-6 border-t border-outline-variant bg-surface-container">
-                <button className="w-full py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 hover:scale-105 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+                <Link to="/contacts" className="w-full py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 hover:scale-105 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20" onClick={toggleDrawer(false)}>
                     <span className="material-symbols-outlined text-sm">support_agent</span>
                     Contact Sales
-                </button>
+                </Link>
             </div>
         </Box>
     );

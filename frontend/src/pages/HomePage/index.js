@@ -15,6 +15,7 @@ import img6 from '../../Assests/6.jpg';
 import img7 from '../../Assests/7.jpg';
 import img8 from '../../Assests/8.jpg';
 import LogoLoop from '../../components/LogoLoop';
+import {useRef, useEffect} from 'react';
 import { motion } from 'framer-motion';
 
 const imageLogos = [
@@ -29,6 +30,35 @@ const imageLogos = [
 
 
 const Home = () => {
+
+    const divRef = useRef(null);
+
+    useEffect(() => {
+        const handleTouch = (e) => {
+            // Prevents the background screen from scrolling
+            if (e.cancelable) {
+                e.preventDefault(); 
+            }
+        };
+
+        const element = divRef.current;
+        
+        // 'passive: false' is mandatory to allow preventDefault() in modern browsers
+        // 'capture: true' intercepts the event before it reaches child elements (like ImageTrail)
+        if (element) {
+            element.addEventListener('touchmove', handleTouch, { passive: false, capture: true });
+            element.addEventListener('touchstart', handleTouch, { passive: false, capture: true });
+        }
+
+        // Clean up the event listener when the component unmounts
+        return () => {
+            if (element) {
+                element.removeEventListener('touchmove', handleTouch, { capture: true });
+                element.removeEventListener('touchstart', handleTouch, { capture: true });
+            }
+        };
+    }, []);
+
     return (
         <div className="h-full w-full flex flex-col font-body-md text-body-md text-on-surface bg-surface dark:bg-surface-dim overflow-x-hidden">
             <Header />
@@ -54,25 +84,29 @@ const Home = () => {
 
 
                 <motion.div
+                    ref={divRef}
                     initial={{ opacity: 0, scale: 0.5 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1 }}
-                    className="h-[500px] mb-12 mx-margin-desktop md:mx-margin-mobile bg-primary relative rounded-full overflow-hidden shadow-2xl">
+                    style={{ touchAction: 'none' }}
+                    className="touch-none h-[500px] mb-12 mx-margin-desktop md:mx-margin-mobile bg-primary relative rounded-full overflow-hidden shadow-2xl">
                     <div className="absolute mx-10 inset-0 flex items-center justify-center opacity-50 text-6xl font-bold text-surface"><i>Hover Here To Have a Glimpse! Of Our Gallery</i></div>
-                    <ImageTrail
-                        items={[
-                            img1,
-                            img2,
-                            img3,
-                            img4,
-                            img5,
-                            img6,
-                            img7,
-                            img8,
-                        ]}
-                        variant="3"
-                    />
+                    <div className="w-full h-full" style={{ touchAction: 'none', overscrollBehavior: 'none' }}>
+                        <ImageTrail
+                            items={[
+                                img1,
+                                img2,
+                                img3,
+                                img4,
+                                img5,
+                                img6,
+                                img7,
+                                img8,
+                            ]}
+                            variant="3"
+                        />
+                    </div>
                 </motion.div>
                 <FeaturedProductsSection />
             </main>

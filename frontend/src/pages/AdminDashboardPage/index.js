@@ -7,6 +7,7 @@ import ManageProducts from './ManageProducts';
 import AdminUsers from './AdminUsers';
 import ManageOrders from './ManageOrders';
 import AnalyticsSummary from './AnalyticsSummary';
+import ManageMessages from './ManageMessages';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -84,6 +85,13 @@ const AdminDashboard = () => {
                                     <span className="material-symbols-outlined">analytics</span>
                                     <span className="font-label-md text-label-md">Analytics</span>
                                 </button>
+                                <button type="button"
+                                    className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded transition-all cursor-pointer ${activeTab === 'messages' ? 'bg-surface-container-high border-l-4 border-secondary text-primary font-bold' : 'text-on-surface-variant hover:bg-surface-container-low'}`}
+                                    onClick={() => setActiveTab('messages')}
+                                >
+                                    <span className="material-symbols-outlined">mail</span>
+                                    <span className="font-label-md text-label-md">Messages</span>
+                                </button>
                                 <div className="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:bg-surface-container-low transition-all cursor-pointer w-full text-left">
                                     <span className="material-symbols-outlined">settings</span>
                                     <span className="font-label-md text-label-md">Settings</span>
@@ -139,7 +147,7 @@ const AdminDashboard = () => {
                                         {/* Placeholder Card 3 */}
                                         <motion.div
                                             whileHover={{ scale: 1.02 }}
-                                            className="p-6 bg-surface-container rounded-2xl border border-outline-variant shadow-sm flex flex-col gap-4 md:col-span-2"
+                                            className="p-6 bg-surface-container rounded-2xl border border-outline-variant shadow-sm flex flex-col gap-4"
                                         >
                                             <div className="flex items-center gap-3">
                                                 <span className="material-symbols-outlined text-primary text-3xl">shopping_cart</span>
@@ -151,6 +159,24 @@ const AdminDashboard = () => {
                                                 className="mt-auto self-start px-4 py-2 bg-primary text-white rounded-full font-medium hover:bg-primary/90 transition-colors"
                                             >
                                                 Manage Orders
+                                            </button>
+                                        </motion.div>
+
+                                        {/* Placeholder Card 4 */}
+                                        <motion.div
+                                            whileHover={{ scale: 1.02 }}
+                                            className="p-6 bg-surface-container rounded-2xl border border-outline-variant shadow-sm flex flex-col gap-4"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <span className="material-symbols-outlined text-primary text-3xl">mail</span>
+                                                <h2 className="text-xl font-semibold">Customer Messages</h2>
+                                            </div>
+                                            <p className="text-on-surface-variant">Read and reply to inquiries from the Contact Us form.</p>
+                                            <button 
+                                                onClick={() => setActiveTab('messages')}
+                                                className="mt-auto self-start px-4 py-2 bg-primary text-white rounded-full font-medium hover:bg-primary/90 transition-colors"
+                                            >
+                                                View Messages
                                             </button>
                                         </motion.div>
                                     </div>
@@ -166,6 +192,9 @@ const AdminDashboard = () => {
                                 )}
                                 {activeTab === 'analytics' && (
                                     <AnalyticsSummary />
+                                )}
+                                {activeTab === 'messages' && (
+                                    <ManageMessages />
                                 )}
                             </motion.div>
                         </section>
